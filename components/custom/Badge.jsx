@@ -1,6 +1,19 @@
 import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
 
+/**
+ * Badge Component - A versatile tag/badge component with support for different variants and interactive functionality
+ * 
+ * @component
+ * @param {Object} props - The component props
+ * @param {string} [props.className] - Additional CSS classes to apply to the badge container
+ * @param {string} props.text - The text content to display inside the badge
+ * @param {string} [props.varient="filter"] - The variant style of the badge ("tag" | "filter")
+ * @param {Function} [props.onClick] - Callback function when the badge is clicked (only works with "filter" variant). Receives boolean indicating new selection state
+ * @param {boolean} [props.isSelected] - External control for selection state (for "filter" variant). When provided, overrides internal state
+ * 
+ */
+
 const Badge = ({ className, text, varient = "filter", onClick, isSelected: externalSelected }) => {
     const [internalSelected, setInternalSelected] = useState(false)
     const isSelected = externalSelected !== undefined ? externalSelected : internalSelected
