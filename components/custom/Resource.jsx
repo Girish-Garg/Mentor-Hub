@@ -1,6 +1,6 @@
 import { ArrowBigDownDash, ArrowBigUpDash, Bookmark, File } from 'lucide-react'
 import React, { useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/lib/utils'
 import Badge from './Badge'
 
 /**
