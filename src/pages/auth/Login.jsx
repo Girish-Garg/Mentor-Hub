@@ -1,20 +1,23 @@
 import React from "react";
 import { Phone, KeyRound, UserRoundSearch } from "lucide-react";
-import mbmImage from '../components/mbm.png'
+import mbmImage from '/mbm.png'
+import Logo from "../../../components/custom/logo";
 const Login = () => {   
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-[1fr_1.5fr] bg-white">
-      <div className="flex flex-col justify-center items-center px-8 sm:px-16 md:px-24">
+      <div className="relative flex flex-col justify-center items-center px-8 sm:px-16 md:px-24">
+        <Logo className="absolute top-2 left-2 scale-75" />
         <div className="w-full max-w-md space-y-6">
           <div className="flex justify-center ">
-            <UserRoundSearch strokeWidth={1} className="w-12 h-12 text-gray-600 border-gray-400 border-2 rounded-md" />
+            <div className="flex items-center justify-center w-12 h-12 text-gray-600 border-gray-400 border-2 rounded-md">
+              <UserRoundSearch strokeWidth={2} className="w-2/3" />
+            </div>
           </div>
-          <h2 className="text-2xl font-semibold text-center">Login to your account</h2>
-          <p className="text-center text-gray-500">Welcome back, please enter your details</p>
-
+          <h2 className="text-2xl font-semibold text-center mb-2">Login to your account</h2>
+          <p className="text-center text-gray-500 mb-10">Welcome back, please enter your details</p>
           <div className="space-y-4">
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone number *</label>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone number *</label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <Phone className="w-5 h-5 text-gray-400" />
@@ -30,7 +33,7 @@ const Login = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password *</label>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password *</label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <KeyRound className="w-5 h-5 text-gray-400" />
@@ -55,7 +58,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
+              className="w-full mt-2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200 hover:cursor-pointer"
             >
               Log in
             </button>
