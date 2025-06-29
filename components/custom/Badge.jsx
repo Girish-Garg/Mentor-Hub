@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/lib/utils'
 
 /**
  * Badge Component - A versatile tag/badge component with support for different variants and interactive functionality
