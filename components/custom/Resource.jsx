@@ -14,6 +14,7 @@ import Badge from './Badge'
  * @param {string} [props.uploadDate] - The upload date in string format
  * @param {string[]} [props.tags] - Array of tags (only first 4 will be shown)
  * @param {number} [props.initialVotes] - The initial vote count for the resource
+ * @param {string} [props.initialUserVote] - Initial user vote state ('up', 'down', or null)
  * @param {Function} [props.onResourceClick] - Callback function when the entire resource card is clicked
  * @param {Function} [props.onUpvote] - Callback function when upvote button is clicked. Receives boolean indicating if upvoted
  * @param {Function} [props.onDownvote] - Callback function when downvote button is clicked. Receives boolean indicating if downvoted
@@ -27,13 +28,14 @@ const Resource = ({
   uploadDate,
   tags,
   initialVotes = 0,
+  initialUserVote = null,
   onResourceClick,
   onUpvote,
   onDownvote,
   onBookmark
 }) => {
   const [votes, setVotes] = useState(initialVotes)
-  const [userVote, setUserVote] = useState(null) // null, 'up', or 'down'
+  const [userVote, setUserVote] = useState(initialUserVote) // null, 'up', or 'down'
   const [isBookmarked, setIsBookmarked] = useState(false)
 
   const handleUpvote = (e) => {
@@ -69,7 +71,6 @@ const Resource = ({
   }
 
   const handleResourceClick = () => {
-    console.log("Resource clicked");
     onResourceClick?.()
   }
   return (
