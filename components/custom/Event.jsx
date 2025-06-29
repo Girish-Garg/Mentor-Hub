@@ -3,21 +3,19 @@ import { ArrowBigUpDash, Bookmark } from "lucide-react";
 import Badge from "./Badge";
 import { cn } from "@/lib/utils";
 
-const Question = ({
+const Events = ({
   className,
   title,
   description,
-  author,
+  uploadTime,
   uploadDate,
   tags = [],
   initialVotes = 0,
   onTitleClick,
   onUpvote,
-  onBookmark,
 }) => {
   const [votes, setVotes] = useState(initialVotes);
   const [userVote, setUserVote] = useState(null);
-  const [isBookmarked, setIsBookmarked] = useState(false);
 
   const handleUpvote = (e) => {
     e.stopPropagation();
@@ -28,13 +26,7 @@ const Question = ({
       setUserVote("up");
       setVotes(votes + 1);
     }
-    onUpvote?.(userVote!=="up");
-};
-
-  const handleBookmark = (e) => {
-    e.stopPropagation();
-    setIsBookmarked(!isBookmarked);
-    onBookmark?.(!isBookmarked);
+    onUpvote?.(userVote !== "up");
   };
 
   const handleTitleClick = () => {
@@ -44,10 +36,9 @@ const Question = ({
   return (
     <div
       className={cn(
-        "relative flex  rounded-md p-4 gap-4 max-w-5xl w-full h-[23%] transition-all duration-150 ",
+        "relative flex  rounded-md p-4 gap-4 max-w-5xl w-full transition-all duration-150  ",
         className
       )}
-      
     >
       <div className="flex flex-col flex-1 min-w-0 gap-1">
         <div className="flex justify-between items-center text-xs text-gray-500 mb-0.5">
@@ -62,7 +53,8 @@ const Question = ({
               )}
               onClick={handleUpvote}
             >
-              <ArrowBigUpDash size={20}
+              <ArrowBigUpDash
+                size={20}
                 className={cn(
                   "transition-colors duration-150",
                   userVote === "up"
@@ -72,28 +64,17 @@ const Question = ({
               />
             </button>
             <span className="text-gray-700">{votes} upvotes</span>
+            <span>{uploadTime}</span>
             <span>{uploadDate}</span>
-            <span>0 answers</span>
           </div>
-          <button
-            className={cn(
-              "rounded hover:bg-yellow-50 transition-colors duration-150 flex-shrink-0 ml-2",
-              isBookmarked && "text-yellow-500"
-            )}
-            onClick={handleBookmark}
-          >
-            <Bookmark
-              className={cn(
-                "transition-colors duration-150",
-                isBookmarked
-                  ? "fill-yellow-500 text-yellow-500"
-                  : "text-gray-500 hover:text-yellow-500"
-              )}
-            />
-          </button>
+          <div className="flex gap-3 items-center cursor-pointer">
+          <button className="text-red-500 font-semibold">Follow</button>
+          <button className="text-blue-500 font-semibold">GForm</button>
+          </div>
         </div>
-        <p className="text-blue-600 font-medium text-sm hover:underline text-left cursor-pointer"
-        onClick={handleTitleClick}
+        <p
+          className="text-blue-600 font-medium text-sm hover:underline cursor-pointer text-left"
+          onClick={handleTitleClick}
         >
           {title}
         </p>
@@ -101,21 +82,13 @@ const Question = ({
           {description}
         </p>
         <div className="flex flex-wrap items-center gap-2 mt-1 text-xs text-gray-600">
-          <span className="text-gray-600">by {author}</span>
           {tags.slice(0, 4).map((tag, idx) => (
             <Badge key={idx} text={tag} varient="tag" />
           ))}
-          {tags.length > 4 && (
-            <span className='text-xs text-gray-500 px-3.5 py-0.5 rounded-full border-2 border-gray-300/50 bg-gray-50'>
-              +{tags.length - 4} more
-            </span>
-          )}
-
-
         </div>
       </div>
     </div>
   );
 };
 
-export default Question;
+export default Events;
