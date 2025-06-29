@@ -68,8 +68,8 @@ const Events = ({
             <span>{uploadDate}</span>
           </div>
           <div className="flex gap-3 items-center cursor-pointer">
-          <a className=" text-red-500 font-semibold">Follow</a>
-          <a className="text-blue-500 font-semibold">GForm</a>
+          <button className="text-red-500 font-semibold">Follow</button>
+          <button className="text-blue-500 font-semibold">GForm</button>
           </div>
         </div>
         <p
