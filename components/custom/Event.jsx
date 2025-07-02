@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { ArrowBigUpDash, Bookmark } from "lucide-react";
 import Badge from "./Badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/components/lib/utils.js";
 
 const Events = ({
   className,
-  title,
-  description,
-  uploadTime,
+  title = "Untitled Event",
+  description = "No description provided",
+  uploadTime = "Unknown",
   uploadDate,
   tags = [],
   initialVotes = 0,
