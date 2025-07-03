@@ -7,6 +7,6 @@ import Question from '@/components/custom/Question'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <App  />
   </StrictMode>,
 )
