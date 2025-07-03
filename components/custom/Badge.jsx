@@ -18,7 +18,7 @@ const Badge = ({ className, text, varient = "filter", onClick, isSelected: exter
     const [internalSelected, setInternalSelected] = useState(false)
     const isSelected = externalSelected !== undefined ? externalSelected : internalSelected
     
-    const baseStyle = 'text-center border-2 w-fit'
+    const baseStyle = 'text-center border w-fit'
 
     const varientStyles = {
         tag: 'px-3.5 py-0.5 rounded-full border-blue-300/80',
