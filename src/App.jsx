@@ -25,9 +25,10 @@ function App() {
       <Events
         title="Encarta the MBM event..."
         description="With the commencement of the 2025 academic session, MBM University proudly presents Encarta, its flagship annual event. Encarta is more than just a fest—it's a grand celebration of innovation, creativity, and cultural vibrance. Held every year,Encarta is a celebration of student energy, creativity and..."
-        uploadTime="1 min ago"
-        uploadDate="24 Jun’25  - 28 Jun’25"
-        tags={["College", "Fest", "Students"]}
+        uploadTime="1 min"
+        initialDate="12/11/2025"
+        finalDate="15/11/2025"
+        tags={["College", "Fest", "Students", "Encarta", "MBM University", "Event", "2025", "Jaipur"]}
       />
     </>
   );
