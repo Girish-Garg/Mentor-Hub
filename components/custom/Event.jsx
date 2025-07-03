@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ArrowBigUpDash, Bookmark } from "lucide-react";
 import Badge from "./Badge";
-import { cn } from "@/components/lib/utils.js";
+import { cn } from "@/components/lib/utils";
 
 const Events = ({
   className,
