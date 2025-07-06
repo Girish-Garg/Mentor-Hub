@@ -43,32 +43,26 @@ const Events = ({
   const [userVote, setUserVote] = useState(initialUserVote);
   const [isFollowing, setIsFollowing] = useState(false);
 
-  // Format date from DD/MM/YYYY to "DD MMM'YY" format
   const formatDate = (dateString) => {
     if (!dateString || dateString === "Unknown") return dateString;
-    
+
     try {
-      // Handle DD/MM/YYYY format
-      const [day, month, year] = dateString.split('/');
+      const [day, month, year] = dateString.split("/");
       const date = new Date(year, month - 1, day);
-      
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      
+
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       const formattedDay = parseInt(day);
       const formattedMonth = monthNames[date.getMonth()];
       const formattedYear = year.slice(-2);
-      
+
       return `${formattedDay} ${formattedMonth}'${formattedYear}`;
     } catch (error) {
-      return dateString; // Return original if formatting fails
+      return dateString;
     }
   };
 
-  // Format date display based on whether finalDate is provided
   const formatDateDisplay = () => {
     const formattedInitial = formatDate(initialDate);
-    
     if (finalDate && finalDate !== initialDate) {
       const formattedFinal = formatDate(finalDate);
       return `${formattedInitial} - ${formattedFinal}`;
@@ -105,13 +99,8 @@ const Events = ({
   };
 
   return (
-    <div
-      className={cn(
-        "relative flex p-4 max-w-5xl w-full h-[23%]",
-        className
-      )}
-    >
-      <div className="flex flex-col flex-1 min-w-0 gap-1">
+    <div className={cn("relative flex p-4 max-w-5xl w-full h-[23%]", className)}>
+      <div className="flex flex-col flex-1 min-w-0 gap-2">
         <div className="flex justify-between items-center text-xs text-gray-500 mb-1.5">
           <div className="flex gap-4 items-center flex-wrap justify-center">
             <div className="flex items-center gap-2 justify-center">
@@ -129,9 +118,7 @@ const Events = ({
                   size={20}
                   className={cn(
                     "transition-colors duration-150",
-                    userVote === "up"
-                      ? "text-red-600 hover:text-red-700"
-                      : "text-red-500"
+                    userVote === "up" ? "text-red-600 hover:text-red-700" : "text-red-500"
                   )}
                 />
               </button>
@@ -140,19 +127,20 @@ const Events = ({
             <span className="text-sm font-medium">{formatDateDisplay()}</span>
             <span className="text-sm">{uploadTime} ago</span>
           </div>
+
           <div className="flex gap-3 items-center">
-            <button 
+            <button
               className={cn(
                 "font-semibold text-sm px-3 py-1 rounded transition-colors duration-150",
-                isFollowing 
-                  ? "text-green-600 bg-green-50 hover:bg-green-100" 
+                isFollowing
+                  ? "text-green-600 bg-green-50 hover:bg-green-100"
                   : "text-red-500 hover:text-red-600 hover:bg-red-50"
               )}
               onClick={handleFollow}
             >
               {isFollowing ? "Following" : "Follow"}
             </button>
-            <button 
+            <button
               className="text-blue-500 font-semibold text-sm px-3 py-1 rounded hover:text-blue-600 hover:bg-blue-50 transition-colors duration-150"
               onClick={handleLinkClick}
             >
@@ -160,7 +148,7 @@ const Events = ({
             </button>
           </div>
         </div>
-        
+
         <button
           className="text-left focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-1 rounded-sm"
           onClick={handleTitleClick}
@@ -169,19 +157,24 @@ const Events = ({
             {title}
           </h3>
         </button>
-        
+
         <p className="w-full text-sm text-gray-600 line-clamp-2 leading-relaxed text-ellipsis overflow-hidden">
           {description}
         </p>
-        
+
         <div className="flex flex-wrap items-center gap-2 mt-1">
           {tags.length > 0 && (
             <div className="flex flex-wrap items-center gap-1">
               {tags.slice(0, 6).map((tag, idx) => (
-                <Badge key={idx} text={tag} varient="tag" />
+                <Badge
+                  key={idx}
+                  text={tag}
+                  varient="tag"
+                  className="h-[23px] items-center flex justify-center rounded-md border-1"
+                />
               ))}
               {tags.length > 6 && (
-                <span className='text-xs text-gray-500 px-2.5 py-0.5 rounded-full bg-gray-100 border border-gray-200 select-none leading-none'>
+                <span className="text-xs text-gray-500 px-2.5 py-0.5 rounded-full bg-gray-100 border border-gray-200 select-none leading-none">
                   +{tags.length - 6} more
                 </span>
               )}
