@@ -40,8 +40,8 @@ const Events = ({
         className
       )}
     >
-      <div className="flex flex-col flex-1 min-w-0 gap-1">
-        <div className="flex justify-between items-center text-xs text-gray-500 mb-0.5">
+      <div className="flex flex-col flex-1 min-w-0 gap-3">
+        <div className="flex justify-between items-center text-xs text-gray-500">
           <div className="flex gap-4 items-center">
             <button
               className={cn(
@@ -63,29 +63,39 @@ const Events = ({
                 )}
               />
             </button>
-            <span className="text-gray-700">{votes} upvotes</span>
-            <span>{uploadTime}</span>
-            <span>{uploadDate}</span>
+            <span className="text-gray-700 ">{votes} upvotes</span>
+            <span className="ml-1">{uploadTime}</span>
+            <span className="ml-1">{uploadDate}</span>
           </div>
-          <div className="flex gap-3 items-center cursor-pointer">
-          <button className="text-red-500 font-semibold">Follow</button>
-          <button className="text-blue-500 font-semibold">GForm</button>
+          <div className="flex gap-2.5 items-center cursor-pointer">
+            <button className="text-red-500 font-semibold">Follow</button>
+            <button className="text-blue-500 font-semibold">Link</button>
           </div>
         </div>
         <p
-          className="text-blue-600 font-medium text-sm hover:underline cursor-pointer text-left"
+          className="text-blue-600 font-normal text-[20px] hover:underline cursor-pointer text-left mt-0"
           onClick={handleTitleClick}
         >
           {title}
         </p>
-        <p className="text-sm text-gray-600 line-clamp-2 text-left">
+        <p className="text-sm text-gray-600 text-[20px] line-clamp-2 text-left">
           {description}
         </p>
-        <div className="flex flex-wrap items-center gap-2 mt-1 text-xs text-gray-600">
-          {tags.slice(0, 4).map((tag, idx) => (
-            <Badge key={idx} text={tag} varient="tag" />
-          ))}
+        <div className="flex flex-wrap items-center gap-2 ">
+          {tags.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              {tags.slice(0, 6).map((tag, idx) => (
+                <Badge key={idx} text={tag} varient="tag" className="h-[23px] items-center flex justify-center rounded-md border-1"/>
+              ))}
+              {tags.length > 6 && (
+                <span className='text-xs text-gray-500 px-2.5 py-0.5 rounded-full bg-gray-100 border border-gray-200 select-none leading-none'>
+                  +{tags.length - 6} more
+                </span>
+              )}
+            </div>
+          )}
         </div>
+
       </div>
     </div>
   );
