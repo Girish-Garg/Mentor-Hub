@@ -100,10 +100,10 @@ const Events = ({
 
   return (
     <div className={cn("relative flex p-4 max-w-5xl w-full h-[23%]", className)}>
-      <div className="flex flex-col flex-1 min-w-0 gap-2">
-        <div className="flex justify-between items-center text-xs text-gray-500 mb-1.5">
-          <div className="flex gap-4 items-center flex-wrap justify-center">
-            <div className="flex items-center gap-2 justify-center">
+      <div className="flex flex-col flex-1 min-w-0 gap-3">
+        <div className="flex justify-between items-center text-xs text-gray-500">
+          <div className="flex gap-5 items-center flex-wrap justify-center">
+            <div className="flex items-center gap-4 justify-center">
               <button
                 className={cn(
                   "text-center rounded-full border-2 border-black/10 p-1.5",
@@ -128,10 +128,10 @@ const Events = ({
             <span className="text-sm">{uploadTime} ago</span>
           </div>
 
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-1 items-center">
             <button
               className={cn(
-                "font-semibold text-sm px-3 py-1 rounded transition-colors duration-150",
+                "font-semibold text-sm px-1 py-1 rounded transition-colors duration-150",
                 isFollowing
                   ? "text-green-600 bg-green-50 hover:bg-green-100"
                   : "text-red-500 hover:text-red-600 hover:bg-red-50"
@@ -141,7 +141,7 @@ const Events = ({
               {isFollowing ? "Following" : "Follow"}
             </button>
             <button
-              className="text-blue-500 font-semibold text-sm px-3 py-1 rounded hover:text-blue-600 hover:bg-blue-50 transition-colors duration-150"
+              className="text-blue-500 font-semibold text-sm px-1 py-1 rounded hover:text-blue-600 hover:bg-blue-50 transition-colors duration-150"
               onClick={handleLinkClick}
             >
               Link
@@ -162,19 +162,19 @@ const Events = ({
           {description}
         </p>
 
-        <div className="flex flex-wrap items-center gap-2 mt-1">
+        <div className="flex flex-wrap items-center gap-2">
           {tags.length > 0 && (
-            <div className="flex flex-wrap items-center gap-1">
+            <div className="flex flex-wrap items-center gap-2">
               {tags.slice(0, 6).map((tag, idx) => (
                 <Badge
                   key={idx}
                   text={tag}
                   varient="tag"
-                  className="h-[23px] items-center flex justify-center rounded-md border-1"
+                  className="h-[23px] items-center flex justify-center rounded-md"
                 />
               ))}
               {tags.length > 6 && (
-                <span className="text-xs text-gray-500 px-2.5 py-0.5 rounded-full bg-gray-100 border border-gray-200 select-none leading-none">
+                <span className="flex items-center justify-center text-xs h-[23px] text-gray-500 px-2.5 py-0.5 rounded-md bg-gray-100 border border-gray-200 select-none leading-none">
                   +{tags.length - 6} more
                 </span>
               )}
