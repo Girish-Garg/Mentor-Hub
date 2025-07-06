@@ -300,7 +300,7 @@ function Sidebar({
  */
 function SidebarHeader({ title }) {
   return (
-    <div className="mb-6">
+    <div className="mb-3">
       <h2 
         className="text-xl font-semibold" 
         style={{ color: '#000000' }}
@@ -348,7 +348,7 @@ function FilterSection({
         />
       )}
       
-      <div className={`flex flex-wrap gap-2 ${isTagsSection ? 'max-h-32 overflow-y-auto' : ''}`}>
+      <div className={`flex flex-wrap gap-x-2 gap-y-3 ${isTagsSection ? 'max-h-32 overflow-y-auto' : ''}`}>
         {visibleItems.map(item => (
           <FilterBadge
             key={item.id}
