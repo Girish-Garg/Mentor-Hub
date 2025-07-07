@@ -3,8 +3,9 @@ import Logo from "@/components/custom/logo";
 import Resource from "@/components/custom/Resource";
 import Question from "@/components/custom/Question";
 import Events from "@/components/custom/Event";
-import Navbar from "@/components/custom/UserNavBar";
 import Sidebar from "@/components/custom/sidebar";
+import { cn } from "@/components/lib/utils";
+
 function App() {
   const tempFilterConfig = {
     tags: {
@@ -157,12 +158,6 @@ function App() {
       <Events
         title="Encarta the MBM event..."
         description="With the commencement of the 2025 academic session, MBM University proudly presents Encarta, its flagship annual event. Encarta is more than just a fest—it's a grand celebration of innovation, creativity, and cultural vibrance. Held every year,Encarta is a celebration of student energy, creativity and..."
-
-        uploadTime="1 min ago"
-        uploadDate="24 Jun’25  - 28 Jun’25"
-        tags={["College", "Fest", "Students"]}
-      /> */}
-      <Navbar/>
         uploadTime="1 min"
         initialDate="12/11/2025"
         finalDate="15/11/2025"
@@ -175,6 +170,14 @@ function App() {
           title="Filter by"
         />
       </div>
+=======
+        uploadTime="1 min ago"
+        uploadDate="24 Jun’25  - 28 Jun’25"
+        tags={["College", "Fest", "Students"]}
+      /> */}
+      <Navbar/>
+
+>>>>>>> 3a9b35d (navbar)
     </>
   );
 }
