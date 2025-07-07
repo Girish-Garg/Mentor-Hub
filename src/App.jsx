@@ -163,11 +163,6 @@ function App() {
         tags={["College", "Fest", "Students"]}
       /> */}
       <Navbar/>
-        uploadTime="1 min"
-        initialDate="12/11/2025"
-        finalDate="15/11/2025"
-        tags={["College", "Fest", "Students", "Encarta", "MBM University", "Event", "2025", "Jaipur"]}
-      />
       <div className="custom-scrollbar bg-white flex flex-col w-64 py-6 px-0 max-h-screen overflow-y-auto overflow-x-hidden">
         <Sidebar
           filterConfig={tempFilterConfig}
