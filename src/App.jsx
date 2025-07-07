@@ -3,10 +3,11 @@ import Logo from "@/components/custom/logo";
 import Resource from "@/components/custom/Resource";
 import Question from "@/components/custom/Question";
 import Events from "@/components/custom/Event";
+import Navbar from "@/components/custom/UserNavBar";
 function App() {
   return (
     <>
-      <Logo />
+      {/* <Logo />
       <Badge text="Votes" varient="filter" />
       <br />
       <Resource
@@ -28,7 +29,9 @@ function App() {
         uploadTime="1 min ago"
         uploadDate="24 Jun’25  - 28 Jun’25"
         tags={["College", "Fest", "Students"]}
-      />
+      /> */}
+      <Navbar/>
+
     </>
   );
 }
