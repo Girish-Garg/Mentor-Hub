@@ -7,11 +7,7 @@ import Question from '@/components/custom/Question'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-<<<<<<< HEAD
-    <App  />
-=======
-  {/* <Sidebar></Sidebar> */}
-  <App/>
->>>>>>> 3a9b35d (navbar)
+    {/* <Sidebar></Sidebar> */}
+    <App/>
   </StrictMode>,
 )
