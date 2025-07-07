@@ -76,7 +76,7 @@ const Resource = ({
   return (
     <div 
       className={cn(
-        'flex border-2 border-black/15 rounded-lg p-4 gap-4 h-fit m-1 max-w-[386px] w-fit',
+        'flex border-2 border-black/15 rounded-lg p-3 sm:p-4 gap-3 sm:gap-4 h-fit m-1 max-w-[386px] w-full sm:w-fit',
         'hover:shadow-lg hover:border-black/25 transition-all duration-200 cursor-pointer',
         'hover:bg-gray-50/50',
         className
@@ -86,7 +86,7 @@ const Resource = ({
         <div className='flex flex-col items-center justify-between'>
             <button 
               className={cn(
-                'text-center rounded-full border-2 border-black/10 p-1.5',
+                'text-center rounded-full border-2 border-black/10 p-1 sm:p-1.5',
                 'transition-colors duration-150',
                 userVote === 'up' 
                   ? 'bg-red-100 border-red-300 hover:bg-red-200 hover:border-red-400' 
@@ -94,15 +94,18 @@ const Resource = ({
               )}
               onClick={handleUpvote}
             >
-                <ArrowBigUpDash className={cn(
-                  'transition-colors duration-150',
-                  userVote === 'up' ? 'text-red-600 hover:text-red-700' : 'text-red-500'
-                )}/>
+                <ArrowBigUpDash 
+                  size={18}
+                  className={cn(
+                    'transition-colors duration-150 sm:w-5 sm:h-5',
+                    userVote === 'up' ? 'text-red-600 hover:text-red-700' : 'text-red-500'
+                  )}
+                />
             </button>
-            <p className='text-xs font-medium'>{votes}</p>
+            <p className='text-xs sm:text-sm font-medium'>{votes}</p>
             <button 
               className={cn(
-                'text-center rounded-full border-2 border-black/10 p-1.5',
+                'text-center rounded-full border-2 border-black/10 p-1 sm:p-1.5',
                 'transition-colors duration-150',
                 userVote === 'down' 
                   ? 'bg-sky-100 border-sky-300 hover:bg-sky-200 hover:border-sky-400' 
@@ -110,40 +113,50 @@ const Resource = ({
               )}
               onClick={handleDownvote}
             >
-                <ArrowBigDownDash className={cn(
-                  'transition-colors duration-150',
-                  userVote === 'down' ? 'text-sky-600 hover:text-sky-700' : 'text-sky-500'
-                )}/>
+                <ArrowBigDownDash 
+                  size={18}
+                  className={cn(
+                    'transition-colors duration-150 sm:w-5 sm:h-5',
+                    userVote === 'down' ? 'text-sky-600 hover:text-sky-700' : 'text-sky-500'
+                  )}
+                />
             </button>
         </div>
         <div className='flex flex-col gap-1 flex-1 min-w-0'>
             <div className='flex items-center justify-between w-full'>
-                <div className='flex items-center gap-2 flex-1 min-w-0 max-w-[280px]'>
-                    <File className='text-gray-600 flex-shrink-0'/>
-                    <p className='text-2xl font-semibold truncate'>{title}</p>
+                <div className='flex items-center gap-2 flex-1 min-w-0 max-w-[200px] sm:max-w-[280px]'>
+                    <File className='text-gray-600 flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6'/>
+                    <p className='text-lg sm:text-2xl font-semibold truncate'>{title}</p>
                 </div>
                 <button 
                   className={cn(
-                    'rounded hover:bg-yellow-50 transition-colors duration-150 flex-shrink-0 ml-2',
+                    'rounded hover:bg-yellow-50 transition-colors duration-150 flex-shrink-0 ml-2 p-1',
                     isBookmarked && 'text-yellow-500'
                   )}
                   onClick={handleBookmark}
                 >
-                  <Bookmark className={cn(
-                    'transition-colors duration-150',
-                    isBookmarked ? 'fill-yellow-500 text-yellow-500' : 'text-gray-500 hover:text-yellow-500'
-                  )}/>
+                  <Bookmark 
+                    size={18}
+                    className={cn(
+                      'transition-colors duration-150 sm:w-6 sm:h-6',
+                      isBookmarked ? 'fill-yellow-500 text-yellow-500' : 'text-gray-500 hover:text-yellow-500'
+                    )}
+                  />
                 </button>
             </div>
             <div className='flex flex-col gap-0.5'>
-                <p className='text-gray-500 text-sm truncate max-w-[280px]'>By {author}</p>
-                <p className='text-gray-500 text-xs'>Uploaded On: {uploadDate}</p>
+                <p className='text-gray-500 text-sm truncate max-w-[200px] sm:max-w-[280px]'>By {author}</p>
+                <p className='text-gray-500 text-xs sm:text-sm'>Uploaded On: {uploadDate}</p>
             </div>
             <div className='flex gap-1 mt-1 flex-wrap'>
-                {tags.slice(0, 4).map((tag, index) => (
-                  <Badge key={index} text={tag} varient="tag"/>
+                {tags.slice(0, 3).map((tag, index) => (
+                  <Badge key={index} text={tag} varient="tag" className="h-[18px] sm:h-[20px] text-xs items-center flex justify-center rounded-md"/>
                 ))}
-                
+                {tags.length > 3 && (
+                  <span className="flex items-center justify-center text-xs h-[18px] sm:h-[20px] text-gray-500 px-2 py-0.5 rounded-md bg-gray-100 border border-gray-200 select-none leading-none">
+                    +{tags.length - 3} more
+                  </span>
+                )}
             </div>
         </div>
     </div>
