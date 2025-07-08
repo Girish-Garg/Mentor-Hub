@@ -3,8 +3,9 @@ import Logo from "@/components/custom/logo";
 import Resource from "@/components/custom/Resource";
 import Question from "@/components/custom/Question";
 import Events from "@/components/custom/Event";
-import Navbar from "@/components/custom/UserNavBar";
 import Sidebar from "@/components/custom/sidebar";
+import TopBar from "@/components/custom/TopBar";
+
 function App() {
   const tempFilterConfig = {
     tags: {
@@ -138,10 +139,10 @@ function App() {
 
   return (
     <>
-      {/* <Logo />
+      <Logo />
       <Badge text="Votes" varient="filter" />
       <br />
-      <Resource
+      {/* <Resource
         title="Math 1 Notes"
         author="Girish Garg"
         uploadDate="12/11/2025"
@@ -157,19 +158,28 @@ function App() {
       <Events
         title="Encarta the MBM event..."
         description="With the commencement of the 2025 academic session, MBM University proudly presents Encarta, its flagship annual event. Encarta is more than just a fest—it's a grand celebration of innovation, creativity, and cultural vibrance. Held every year,Encarta is a celebration of student energy, creativity and..."
+        uploadTime="1 min"
+        initialDate="12/11/2025"
+        finalDate="15/11/2025"
+        tags={["College", "Fest", "Students", "Encarta", "MBM University", "Event", "2025", "Jaipur"]}
+      />
+     
+
 
         uploadTime="1 min ago"
         uploadDate="24 Jun’25  - 28 Jun’25"
         tags={["College", "Fest", "Students"]}
       /> */}
       <Navbar/>
+
       <div className="custom-scrollbar bg-white flex flex-col w-64 py-6 px-0 max-h-screen overflow-y-auto overflow-x-hidden">
         <Sidebar
           filterConfig={tempFilterConfig}
           onFilterChange={handleFilterChange}
           title="Filter by"
         />
-      </div>
+      </div> */}
+       <TopBar/>
     </>
   );
 }
