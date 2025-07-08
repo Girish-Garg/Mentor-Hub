@@ -5,6 +5,7 @@ import Question from "@/components/custom/Question";
 import Events from "@/components/custom/Event";
 import Sidebar from "@/components/custom/sidebar";
 import { cn } from "@/components/lib/utils";
+import TopBar from "@/components/custom/TopBar";
 
 function App() {
   const tempFilterConfig = {
@@ -139,10 +140,10 @@ function App() {
 
   return (
     <>
-      {/* <Logo />
+      <Logo />
       <Badge text="Votes" varient="filter" />
       <br />
-      <Resource
+      {/* <Resource
         title="Math 1 Notes"
         author="Girish Garg"
         uploadDate="12/11/2025"
@@ -163,21 +164,15 @@ function App() {
         finalDate="15/11/2025"
         tags={["College", "Fest", "Students", "Encarta", "MBM University", "Event", "2025", "Jaipur"]}
       />
+     
       <div className="custom-scrollbar bg-white flex flex-col w-64 py-6 px-0 max-h-screen overflow-y-auto overflow-x-hidden">
         <Sidebar
           filterConfig={tempFilterConfig}
           onFilterChange={handleFilterChange}
           title="Filter by"
         />
-      </div>
-=======
-        uploadTime="1 min ago"
-        uploadDate="24 Jun’25  - 28 Jun’25"
-        tags={["College", "Fest", "Students"]}
-      /> */}
-      <Navbar/>
-
->>>>>>> 3a9b35d (navbar)
+      </div> */}
+       <TopBar/>
     </>
   );
 }
