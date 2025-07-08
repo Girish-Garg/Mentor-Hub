@@ -11,6 +11,19 @@ import {
   Bookmark,
   FileText
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
+const useSafeNavigate = () => {
+  try {
+    return useNavigate();
+  } catch (error) {
+    // Fallback when React Router is not available
+    return (path) => {
+      console.log(`Navigation to ${path} (React Router not available)`);
+      // You can add window.location.href = path here if needed
+    };
+  }
+};
 
 const navItems = [
   { label: "Home", icon: Home },
@@ -26,25 +39,38 @@ const moreOptions = [
   { label: "Results", icon: FileText }
 ];
 
-const Navbar = () => {
+const Navbar = ({ activeItem = null }) => {
   const [showMoreDropdown, setShowMoreDropdown] = useState(false);
+  const [internalActiveItem, setInternalActiveItem] = useState(activeItem);
+  const navigate = useSafeNavigate();
+
+  const currentActiveItem = activeItem || internalActiveItem;
 
   return (
-    <div className="w-full border-b bg-white">
+    <div className="w-full border-b bg-white mt-6">
       <nav className="flex justify-end items-center mr-[3vw] gap-[3.25vw] relative">
         {navItems.map((item, index) => {
           const Icon = item.icon;
+          const isActive = currentActiveItem === item.label;
           return (
             <div
               key={index}
-              onClick={() => console.log(`${item.label} clicked`)}
-              className="group flex flex-col items-center cursor-pointer text-black hover:text-red-600 transition-colors duration-200"
+              onClick={() => {
+                console.log(`${item.label} clicked`);
+                setInternalActiveItem(item.label);
+                navigate("/");
+              }}
+              className="group flex flex-col items-center cursor-pointer transition-colors duration-200"
             >
               <div className="flex items-center px-2 gap-3">
-                <Icon className="w-[1.25vw] aspect-square" />
-                <span className="text-sm text-[1vw]">{item.label}</span>
+                <Icon className={`w-[1.25vw] aspect-square text-black ${isActive ? 'text-red-600 group-hover:text-red-500' : 'group-hover:text-red-600'}`} />
+                <span className={`text-sm text-[1vw] text-black ${isActive ? 'text-red-600 group-hover:text-red-500' : 'group-hover:text-red-600'}`}>{item.label}</span>
               </div>
-              <div className="w-0 h-[2px] mt-3 rounded-t bg-transparent group-hover:w-full group-hover:bg-red-600 transition-all duration-300"></div>
+              <div className={`h-[2px] mt-2 rounded-t transition-all duration-300 ${
+                isActive 
+                  ? 'w-full bg-red-600 group-hover:bg-red-500' 
+                  : 'w-0 bg-transparent group-hover:w-full group-hover:bg-red-600'
+              }`}></div>
             </div>
           );
         })}
@@ -52,32 +78,37 @@ const Navbar = () => {
         <div className="relative ">
           <div
             onClick={() => setShowMoreDropdown(!showMoreDropdown)}
-            className="flex flex-col items-center cursor-pointer text-black  hover:text-red-600 transition-colors duration-200"
+            className="group flex flex-col items-center cursor-pointer text-black  hover:text-red-600 transition-colors duration-200"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 px-2">
               {showMoreDropdown ? (
-  <XCircle className="w-[1.25vw] aspect-square" />
-) : (
-  <MoreHorizontal className="w-[1.25vw] aspect-square" />
-)}
+              <XCircle className="w-[1.25vw] aspect-square" />
+            ) : (
+              <MoreHorizontal className="w-[1.25vw] aspect-square" />
+            )}
               <span className="text-sm text-[1vw]">More Options</span>
             </div>
-              <div className="w-0 h-[2px] mt-3 rounded-t bg-transparent group-hover:w-full group-hover:bg-red-600 transition-all duration-300"></div>
-
+              <div className="w-0 h-[2px] mt-2 rounded-t bg-transparent group-hover:w-full group-hover:bg-red-600 transition-all duration-300"></div>
           </div>
 
           {showMoreDropdown && (
-            <div className="absolute top-[100%] left-1/2 -translate-x-1/2  w-[11.24vw] h-[10.74vh]  bg-red-50 p-12 rounded-bl-[3.125vw] shadow-lg z-10 flex flex-col  justify-center gap-2">
+            <div className="absolute -right-11 top-[100%] h-fit bg-red-50 border py-7 pr-9 rounded-bl-[3.125vw] z-10 flex flex-col justify-center gap-2">
               {moreOptions.map((item, index) => {
                 const Icon = item.icon;
+                const isActive = currentActiveItem === item.label;
                 return (
                   <div
                     key={index}
-                    onClick={() => console.log(`${item.label} clicked`)}
-                    className="flex items-center gap-3 text-black hover:text-red-600 cursor-pointer transition"
+                    onClick={() => {
+                      console.log(`${item.label} clicked`);
+                      setInternalActiveItem(item.label);
+                      setShowMoreDropdown(false);
+                      navigate("/");
+                    }}
+                    className="group flex items-center ml-9 gap-3 cursor-pointer transition"
                   >
-                    <Icon className="w-[1.25vw] aspect-square" />
-                    <span className="text-[1vw]">{item.label}</span>
+                    <Icon className={`w-[1.25vw] aspect-square text-black ${isActive ? 'text-red-600 group-hover:text-red-700' : 'group-hover:text-red-400'}`} />
+                    <span className={`text-[1vw] text-black ${isActive ? 'text-red-600 group-hover:text-red-700' : 'group-hover:text-red-400'}`}>{item.label}</span>
                   </div>
                 );
               })}
