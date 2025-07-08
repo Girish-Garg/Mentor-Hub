@@ -4,7 +4,6 @@ import Resource from "@/components/custom/Resource";
 import Question from "@/components/custom/Question";
 import Events from "@/components/custom/Event";
 import Sidebar from "@/components/custom/sidebar";
-import { cn } from "@/components/lib/utils";
 import TopBar from "@/components/custom/TopBar";
 
 function App() {
