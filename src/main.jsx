@@ -7,7 +7,7 @@ import Question from '@/components/custom/Question'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <Sidebar></Sidebar> */}
+    
     <App/>
   </StrictMode>,
 )
