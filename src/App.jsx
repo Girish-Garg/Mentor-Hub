@@ -4,6 +4,7 @@ import Resource from "@/components/custom/Resource";
 import Question from "@/components/custom/Question";
 import Events from "@/components/custom/Event";
 import Sidebar from "@/components/custom/sidebar";
+import Navbar from "@/components/custom/UserNavBar";
 import TopBar from "@/components/custom/TopBar";
 
 function App() {
@@ -139,9 +140,9 @@ function App() {
 
   return (
     <>
-      <Logo />
+      {/* <Logo />
       <Badge text="Votes" varient="filter" />
-      <br />
+      <br /> */}
       {/* <Resource
         title="Math 1 Notes"
         author="Girish Garg"
@@ -170,9 +171,8 @@ function App() {
         uploadDate="24 Jun’25  - 28 Jun’25"
         tags={["College", "Fest", "Students"]}
       /> */}
-      <Navbar/>
 
-      <div className="custom-scrollbar bg-white flex flex-col w-64 py-6 px-0 max-h-screen overflow-y-auto overflow-x-hidden">
+      {/*<div className="custom-scrollbar bg-white flex flex-col w-64 py-6 px-0 max-h-screen overflow-y-auto overflow-x-hidden">
         <Sidebar
           filterConfig={tempFilterConfig}
           onFilterChange={handleFilterChange}
@@ -180,6 +180,7 @@ function App() {
         />
       </div> */}
        <TopBar/>
+       <Navbar/>
     </>
   );
 }
