@@ -132,7 +132,7 @@ const EnterPass = () => {
               <label htmlFor="rules" className="text-sm text-gray-700">
                 You adhere to the{" "}
                 <a href="#" className="underline">
-                  rules and regulation
+                  rules and regulations
                 </a>{" "}
                 of the platform
               </label>
