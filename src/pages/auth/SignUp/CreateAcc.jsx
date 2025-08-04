@@ -39,7 +39,6 @@ const validationSchema = yup.object().shape({
     .nullable()
     .test("valid-abc", "Invalid ABC ID", (value) => {
       if (!value) return true; 
-      if (value === "123456789012") return true;
       return /^(\d{4}\s\d{4}\s\d{4}|\d{12})$/.test(value);
     }),
 
