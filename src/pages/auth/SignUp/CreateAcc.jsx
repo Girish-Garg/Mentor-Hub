@@ -31,7 +31,7 @@ const validationSchema = yup.object().shape({
     .string()
     .required("Aadhar ID is required")
     .test("valid-aadhar", "Invalid Aadhar ID", (value) => {
-      if (!value) return true; 
+      if (!value) return false; // Do not allow empty values to pass
       if (value === "123456789012") return true; 
       return /^[2-9]{1}[0-9]{3}\s?[0-9]{4}\s?[0-9]{4}$/.test(value);
     }),
