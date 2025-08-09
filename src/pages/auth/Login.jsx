@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { KeyRound, UserRoundSearch, Mail } from "lucide-react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useSignIn, useUser, useAuth } from "@clerk/clerk-react";
+import { KeyRound, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import mbmImage from "/mbm.png";
 import Logo from "../../../components/custom/logo";
@@ -13,37 +14,82 @@ const schema = yup.object().shape({
     .string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
+  agree: yup
+    .boolean()
+    .oneOf([true], "You must accept the terms and conditions"),
 });
 
 const Login = () => {
+  const { getToken } = useAuth();
   const navigate = useNavigate();
+  const { isLoaded, signIn, setActive } = useSignIn();
+  const { user } = useUser();
+  // For managing button enable/disable state in frontend
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    if (user && isLoaded) {
+      console.log("User signed in:", user.publicMetadata);
+      alert("Welcome back, " + user.id + "!");
+    }
+  }, [user, isLoaded]);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-
-  const onSubmit = (data) => {
-    console.log(data);
-    navigate("/");
-  };
-
   const handleCreateAccount = (e) => {
     e.preventDefault();
     navigate("/signup/type");
+  };
+  const handleSignIn = async (data, e) => {
+    e?.preventDefault();
+    setIsLoading(true);
+    if (!isLoaded) {
+      console.error("Clerk is not loaded yet.");
+      return;
+    }
+    try {
+      console.log("User Token", await getToken());
+      // no 2fa
+      if (data.agree !== true) {
+        alert("You must accept the terms and conditions to proceed.");
+        setIsLoading(false);
+        return;
+      }
+      const step1 = await signIn.create({
+        identifier: data.email.trim(),
+        password: data.password.trim(),
+      });
+      if (step1.status !== "complete") {
+        console.error("Sign-in not complete:", step1);
+        return;
+      }
+      if (step1.status === "complete") {
+        await setActive({ session: step1.createdSessionId });
+        console.log("Sign-in successful:", step1);
+      }
+    } catch (error) {
+      console.error("Sign-in failed:", error);
+      alert("Sign-in failed. Please check your credentials.");
+    } finally {
+      console.log("User Token", await getToken());
+      setIsLoading(false);
+    }
   };
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-[1fr_1.5fr] bg-white">
       <div className="relative flex flex-col justify-center items-center px-8 sm:px-16 md:px-24">
         <Logo className="absolute top-2 left-2 scale-75" />
-
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleSignIn)}
           className="w-full max-w-md space-y-6"
         >
           <div className="flex justify-center">
             <div className="flex items-center justify-center w-12 h-12 text-gray-600 border-gray-400 border-2 rounded-md">
-              <UserRoundSearch strokeWidth={2} className="w-2/3" />
+              <img
+                src="/Icon_user.svg"
+                className="aspect-[.81559766763848396501457725947522] w-[22px]"
+              />
             </div>
           </div>
 
@@ -106,12 +152,30 @@ const Login = () => {
                 </p>
               )}
             </div>
-
+            {errors.agree && (
+              <p className="text-sm text-red-500 mt-1">
+                {errors.agree.message}
+              </p>
+            )}
             <div className="flex items-center justify-between text-sm text-gray-600">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                Keep me signed in
+              <label className="flex items-center text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  id="clerk-captcha"
+                  {...register("agree")}
+                  className="mr-2"
+                />
+                You agree to our{" "}
+                <a
+                  href=""
+                  className="text-blue-600 hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  platform terms
+                </a>
               </label>
+
               <a href="/" className="text-blue-600 hover:underline">
                 Forgot password
               </a>
@@ -120,7 +184,7 @@ const Login = () => {
             <button
               type="submit"
               className="w-full mt-2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200 hover:cursor-pointer"
-              onClick={handleSignIn}
+              disabled={isLoading}
             >
               Log in
             </button>
