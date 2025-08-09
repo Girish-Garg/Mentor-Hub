@@ -76,7 +76,7 @@ const Resource = ({
   return (
     <div 
       className={cn(
-        'flex border-2 border-black/15 rounded-lg p-3 sm:p-4 gap-3 sm:gap-4 h-fit m-1 max-w-[386px] w-full sm:w-fit',
+        'flex border-2 border-black/15 rounded-lg p-3 sm:p-4 gap-3 sm:gap-4 h-[160px] m-1  w-full ',
         'hover:shadow-lg hover:border-black/25 transition-all duration-200 cursor-pointer',
         'hover:bg-gray-50/50',
         className

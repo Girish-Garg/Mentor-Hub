@@ -4,10 +4,13 @@ import './index.css'
 import App from './App.jsx'
 import Sidebar from '@/components/custom/sidebar'
 import Question from '@/components/custom/Question'
+import 'react-quill/dist/quill.snow.css';
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     
     <App/>
+
   </StrictMode>,
 )

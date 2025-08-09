@@ -17,7 +17,7 @@ import { Search, Bell, FilePen } from "lucide-react";
 
 const TopBar = ({buttonText, onButtonClick, onSearch, onAvatarClick, onBellIcon}) => {
   return (
-    <div className="flex items-center justify-around w-[100vw] h-[6.151vw] bg-white" style={{ paddingTop: '0.417vh', paddingBottom: '0.417vh', paddingLeft: '2.083vw', paddingRight: '2.083vw' }}>
+    <div className="flex items-center justify-around w-[100vw] mt-2 bg-white" style={{ paddingTop: '0.417vh', paddingBottom: '0.417vh', paddingLeft: '2.083vw', paddingRight: '2.083vw' }}>
       <div className="flex items-center" style={{ gap: '1.25vw' }}>
         <Logo />
         <div className="leading-tight">

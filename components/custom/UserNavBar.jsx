@@ -12,6 +12,7 @@ import {
   FileText
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/components/lib/utils";
 
 const useSafeNavigate = () => {
   try {
@@ -39,7 +40,7 @@ const moreOptions = [
   { label: "Results", icon: FileText }
 ];
 
-const Navbar = ({ activeItem = null }) => {
+const Navbar = ({ activeItem = null , className }) => {
   const [showMoreDropdown, setShowMoreDropdown] = useState(false);
   const [internalActiveItem, setInternalActiveItem] = useState(activeItem);
   const navigate = useSafeNavigate();
@@ -47,8 +48,10 @@ const Navbar = ({ activeItem = null }) => {
   const currentActiveItem = activeItem || internalActiveItem;
 
   return (
-    <div className="w-full border-b bg-white mt-6">
-      <nav className="flex justify-end items-center mr-[3vw] gap-[3.25vw] relative">
+    <div className={cn("w-full border-b bg-white", 
+    className
+    )}>
+      <nav className="flex justify-end items-center mr-[2vw] gap-[3.25vw] relative">
         {navItems.map((item, index) => {
           const Icon = item.icon;
           const isActive = currentActiveItem === item.label;
