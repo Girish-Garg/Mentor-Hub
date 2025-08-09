@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useSignIn, useUser, useAuth } from "@clerk/clerk-react";
@@ -60,6 +60,7 @@ const Login = () => {
       });
       if (step1.status !== "complete") {
         console.error("Sign-in not complete:", step1);
+        setIsLoading(false);
         return;
       }
       if (step1.status === "complete") {
