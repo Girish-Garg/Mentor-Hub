@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import zxcvbn from "zxcvbn";
-import { UserRoundPlus, KeyRound, Eye, EyeOff } from "lucide-react";
+import {  KeyRound, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
 const getStrengthLabel = (score) => {
@@ -70,7 +70,7 @@ const EnterPass = ({password,setPassword,setCurrentStep}) => {
             <div className="text-left mb-6">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2 flex justify-between items-center"
+                className="text-sm font-medium text-gray-700 mb-2 flex justify-between items-center"
               >
                 <span>Enter Your Password</span>
                 {password && (

@@ -34,7 +34,7 @@ const BackgroundWrapper = ({ children, className}) => {
         </button>
       </div> */}
 
-      <div className="relative z-10 px-4 sm:px-6">{children}</div>
+      <div className="relative z-10 ">{children}</div>
     </div>
   );
 };
