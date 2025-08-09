@@ -103,7 +103,7 @@ const CreateAcc = ({setCurrentStep, setData}) => {
               onSubmit={async (values) => {
                 const errors = await validateForm(values);
                 if (Object.keys(errors).length === 0) {
-                  setData ( {
+                  setData({
                     ...values,
                     aadhar: values.aadhar.replace(/\s/g, ""),
                     abc: values.abc.replace(/\s/g, ""),
