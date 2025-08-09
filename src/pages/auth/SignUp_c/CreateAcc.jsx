@@ -6,15 +6,11 @@ import {
   Mail,
   IdCard,
   IdCardLanyard,
-  UserRoundPlus,
 } from "lucide-react";
-import BackgroundWrapper from "../../../../components/custom/BackgroundWrapper";
-import GoBackButton from "../../../../components/custom/GoBackButton";
-import { Toaster, toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Combobox } from "../../../../components/custom";
+import { toast } from "sonner";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
-
 const formatTo12DigitBlocks = (value) => {
   const onlyDigits = value.replace(/\D/g, "").slice(0, 12);
   return onlyDigits.replace(/(\d{4})(?=\d)/g, "$1 ");
@@ -45,9 +41,7 @@ const validationSchema = yup.object().shape({
   confirm: yup.boolean().oneOf([true], "You must confirm the details"),
 });
 
-const CreateAcc = () => {
-  const navigate = useNavigate();
-
+const CreateAcc = ({setCurrentStep, setData}) => {
   const validateForm = async (values) => {
     try {
       await validationSchema.validate(values, { abortEarly: false });
@@ -61,17 +55,31 @@ const CreateAcc = () => {
       return errors;
     }
   };
+    
+   const branchOptions = [
+      { value: "Computer Science", label: "Computer Science" },
+      { value: "Information Technology", label: "Information Technology" },
+      { value: "Electronics", label: "Electronics" },
+      { value: "Mechanical", label: "Mechanical" },
+      { value: "Civil", label: "Civil" },
+      { value: "Electrical", label: "Electrical" },
+    ];
 
+   const yearOptions = [
+      { value: "1", label: "1st Year" },
+      { value: "2", label: "2nd Year" },
+      { value: "3", label: "3rd Year" },
+      { value: "4", label: "4th Year" },
+    ];
+
+    
   return (
-    <BackgroundWrapper>
-      <GoBackButton onClick={() => navigate("/signup/type")} />
-      <Toaster position="top-center" richColors/>
-      <div className="relative z-10 min-h-screen px-4">
-        <div className="flex justify-center mt-0">
+      <div className="relative z-10 w-[100vw] h-max">
+        <div className="mt-0 flex justify-center">
           <div className="w-full max-w-md bg-white dark:bg-zinc-900 shadow-lg rounded-xl p-2.5 text-center">
             <div className="flex justify-center mb-1">
               <div className="flex items-center justify-center w-12 h-12 text-gray-600 border-2 border-gray-400 rounded-md dark:text-gray-300 dark:border-gray-500">
-                <UserRoundPlus strokeWidth={2} className="w-2/3" />
+                <img src="/Add_user_icon.svg"  className="w-[20px] aspect-[0.815]" />
               </div>
             </div>
 
@@ -95,13 +103,12 @@ const CreateAcc = () => {
               onSubmit={async (values) => {
                 const errors = await validateForm(values);
                 if (Object.keys(errors).length === 0) {
-                  const cleanData = {
+                  setData ( {
                     ...values,
                     aadhar: values.aadhar.replace(/\s/g, ""),
                     abc: values.abc.replace(/\s/g, ""),
-                  };
-                  console.log("Submitted Data:", cleanData);
-                  navigate("/signup/verify");
+                  });
+                  setCurrentStep(3);
                 }
               }}
             >
@@ -128,25 +135,16 @@ const CreateAcc = () => {
                       Branch *
                     </label>
                     <div className="relative">
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 z-10">
                         <GraduationCap className="w-4 h-4 text-gray-400" />
                       </span>
-                      <Field
-                        as="select"
-                        name="branch"
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        defaultValue=""
-                        required
-                      >
-                        <option value="" disabled>
-                          Select
-                        </option>
-                        <option value="cse">Computer Science</option>
-                        <option value="mech">Mechanical</option>
-                        <option value="civil">Civil</option>
-                        <option value="eee">Electrical and Electronics</option>
-                        <option value="other">Other</option>
-                      </Field>
+                      <div className="pl-10">
+                        <Combobox
+                          options={branchOptions}
+                          placeholder="Select Branch"
+                          onChange={(value) => setFieldValue("branch", value)}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="mb-4 text-left">
@@ -154,24 +152,16 @@ const CreateAcc = () => {
                       Year *
                     </label>
                     <div className="relative">
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 z-10">
                         <Calendar className="w-4 h-4 text-gray-400" />
                       </span>
-                      <Field
-                        as="select"
-                        name="year"
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        defaultValue=""
-                        required
-                      >
-                        <option value="" disabled>
-                          Select
-                        </option>
-                        <option value="1">1st Year</option>
-                        <option value="2">2nd Year</option>
-                        <option value="3">3rd Year</option>
-                        <option value="4">4th Year</option>
-                      </Field>
+                      <div className="pl-10">
+                        <Combobox
+                          options={yearOptions}
+                          placeholder="Select Year"
+                          onChange={(value) => setFieldValue("year", value)}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="mb-4 text-left">
@@ -269,7 +259,6 @@ const CreateAcc = () => {
           </div>
         </div>
       </div>
-    </BackgroundWrapper>
   );
 };
 

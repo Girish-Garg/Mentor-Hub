@@ -6,8 +6,8 @@ import { useSignIn, useUser, useAuth } from "@clerk/clerk-react";
 import { KeyRound, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import mbmImage from "/mbm.png";
-import Logo from "../../../components/custom/logo";
-import { Toaster, toast } from "sonner";
+import { Logo } from "../../../components/custom";
+import {Toaster, toast } from "sonner";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -43,7 +43,7 @@ const Login = () => {
   } = useForm({ resolver: yupResolver(schema) });
   const handleCreateAccount = (e) => {
     e.preventDefault();
-    navigate("/signup/type");
+    navigate("/signup");
   };
   const handleSignIn = async (data, e) => {
     e?.preventDefault();
@@ -120,7 +120,7 @@ const Login = () => {
                 />
               </div>
               {errors.email && (
-                <div onLoad={toast.error(errors.email.message)}></div>
+                <div onLoad={() => toast.error(errors.email.message)}></div>
               )}
             </div>
 
@@ -144,11 +144,11 @@ const Login = () => {
                 />
               </div>
               {errors.password && (
-                <div onLoad={toast.error(errors.password.message)}></div>
+                <div onLoad={() => toast.error(errors.password.message)}></div>
               )}
             </div>
             {errors.agree && (
-              <div onLoad={toast.error(errors.agree.message)}></div>
+              <div onLoad={() => toast.error(errors.agree.message)}></div>
             )}
             <div className="flex items-center justify-between text-sm text-gray-600">
               <label className="flex items-center text-sm text-gray-700">

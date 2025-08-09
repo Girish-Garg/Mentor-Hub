@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import zxcvbn from "zxcvbn";
-import BackgroundWrapper from "../../../../components/custom/BackgroundWrapper";
-import GoBackButton from "../../../../components/custom/GoBackButton";
 import { UserRoundPlus, KeyRound, Eye, EyeOff } from "lucide-react";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 const getStrengthLabel = (score) => {
   switch (score) {
@@ -23,22 +20,16 @@ const getStrengthLabel = (score) => {
   }
 };
 
-const EnterPass = () => {
-  const navigate = useNavigate();
-  const [password, setPassword] = useState("");
+const EnterPass = ({password,setPassword,setCurrentStep}) => {
   const [agree, setAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const passwordScore = zxcvbn(password).score;
   const strength = getStrengthLabel(passwordScore);
   const charCount = Math.min(password.length, 8);
-
   const isPasswordValid = password.length >= 6 && passwordScore >= 3;
   const isFormValid = isPasswordValid && agree;
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (password.length < 6) {
       toast.error("Password must be at least 6 characters");
       return;
@@ -51,24 +42,20 @@ const EnterPass = () => {
       toast.error("You must agree to the rules and regulations");
       return;
     }
-
     toast.success("Password set successfully!");
-    navigate("/dashboard");
+    setCurrentStep(4);
   };
 
   return (
-    <BackgroundWrapper>
-      <GoBackButton onClick={() => navigate(-1)} />
-      <Toaster position="top-center" richColors />
-      <div className="relative z-10 min-h-screen px-4 pt-16">
-        <div className="mt-12 flex justify-center">
+      <div className="relative z-10 w-[100vw] h-max">
+        <div className="flex justify-center">
           <form
             onSubmit={handleSubmit}
             className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md text-center"
           >
             <div className="flex justify-center mb-4">
               <div className="flex items-center justify-center w-12 h-12 text-gray-600 border-2 border-gray-400 rounded-md">
-                <UserRoundPlus strokeWidth={2} className="w-6 h-6" />
+                <img src="/Add_user_icon.svg"  className="w-[20px] aspect-[0.815]" />
               </div>
             </div>
             <h2 className="text-2xl font-semibold mb-1.5">
@@ -151,7 +138,6 @@ const EnterPass = () => {
           </form>
         </div>
       </div>
-    </BackgroundWrapper>
   );
 };
 

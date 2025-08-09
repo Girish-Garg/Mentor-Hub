@@ -1,18 +1,14 @@
 import React from "react";
 import {
-  UserRoundPlus,
   Contact,
   GraduationCap,
   Calendar,
   Mail,
 } from "lucide-react";
-import BackgroundWrapper from "../../../../components/custom/BackgroundWrapper";
-import GoBackButton from "../../../../components/custom/GoBackButton";
-import { useNavigate } from "react-router-dom";
+import { Combobox } from "../../../../components/custom";
 import { Formik, Form, Field } from "formik";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import * as yup from "yup";
-
 const validationSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
   department: yup.string().required("Department is required"),
@@ -21,8 +17,22 @@ const validationSchema = yup.object().shape({
   agree: yup.boolean().oneOf([true], "Confirmation is required"),
 });
 
-const CreateAcc = () => {
-  const navigate = useNavigate();
+const CreateAcc_T = ({ setCurrentStep, setData }) => {
+
+  const departmentOptions = [
+    { value: "cse", label: "Computer Science" },
+    { value: "mech", label: "Mechanical" },
+    { value: "civil", label: "Civil" },
+    { value: "eee", label: "Electrical and Electronics" },
+    { value: "other", label: "Other" },
+  ];
+
+  const positionOptions = [
+    { value: "professor", label: "Professor" },
+    { value: "hod", label: "HOD" },
+    { value: "staff", label: "Staff" },
+    { value: "other", label: "Other" },
+  ];
 
   const validateForm = async (values) => {
     try {
@@ -39,15 +49,12 @@ const CreateAcc = () => {
   };
 
   return (
-    <BackgroundWrapper>
-      <GoBackButton onClick={() => navigate("/signup/type")} />
-      <Toaster position="top-center" richColors />
-      <div className="relative z-10 min-h-screen px-4">
-        <div className="mt-10 flex justify-center">
+      <div className="relative z-10 w-[100vw] h-max">
+        <div className="flex justify-center">
           <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-xl shadow-lg px-3 py-4">
             <div className="flex justify-center mb-3">
               <div className="flex items-center justify-center w-12 h-12 border-2 border-gray-400 rounded-md text-gray-600">
-                <UserRoundPlus className="w-6 h-6" />
+                <img src="/Add_user_icon.svg"  className="w-[20px] aspect-[0.815]" />
               </div>
             </div>
             <h2 className="text-2xl font-semibold text-center text-gray-900 mb-4">
@@ -68,12 +75,14 @@ const CreateAcc = () => {
               onSubmit={async (values) => {
                 const errors = await validateForm(values);
                 if (Object.keys(errors).length === 0) {
-                  console.log("Submitted Data:", values);
-                  navigate("/signup/verify_t");
+                    setData ( {
+                    ...values}
+                  );
+                  setCurrentStep(3);
                 }
               }}
             >
-              {({ values }) => (
+              {({ values, setFieldValue }) => (
                 <Form>
                   <div className="mb-5">
                     <label className="text-sm font-medium text-gray-700 mb-3 block">
@@ -96,24 +105,16 @@ const CreateAcc = () => {
                       Department *
                     </label>
                     <div className="relative">
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 z-10">
                         <GraduationCap className="w-4 h-4 text-gray-400" />
                       </span>
-                      <Field
-                        as="select"
-                        name="department"
-                        className="w-full pl-10 pr-4 py-2 px-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        defaultValue=""
-                      >
-                        <option value="" disabled>
-                          Select
-                        </option>
-                        <option value="cse">Computer Science</option>
-                        <option value="mech">Mechanical</option>
-                        <option value="civil">Civil</option>
-                        <option value="eee">Electrical and Electronics</option>
-                        <option value="other">Other</option>
-                      </Field>
+                      <div className="pl-10">
+                        <Combobox
+                          options={departmentOptions}
+                          placeholder="Select Department"
+                          onChange={(value) => setFieldValue("department", value)}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="mb-5">
@@ -121,23 +122,16 @@ const CreateAcc = () => {
                       Position *
                     </label>
                     <div className="relative">
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 z-10">
                         <Calendar className="w-4 h-4 text-gray-400" />
                       </span>
-                      <Field
-                        as="select"
-                        name="position"
-                        className="w-full pl-10 pr-4 py-2 px-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        defaultValue=""
-                      >
-                        <option value="" disabled>
-                          Select
-                        </option>
-                        <option value="professor">Professor</option>
-                        <option value="hod">HOD</option>
-                        <option value="staff">Staff</option>
-                        <option value="other">Other</option>
-                      </Field>
+                      <div className="pl-10">
+                        <Combobox
+                          options={positionOptions}
+                          placeholder="Select Position"
+                          onChange={(value) => setFieldValue("position", value)}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="mb-5">
@@ -181,8 +175,7 @@ const CreateAcc = () => {
           </div>
         </div>
       </div>
-    </BackgroundWrapper>
   );
 };
 
-export default CreateAcc;
+export default CreateAcc_T;
