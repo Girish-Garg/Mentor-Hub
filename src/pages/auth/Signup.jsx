@@ -19,24 +19,24 @@ const Signup = () => {
   return (
     <BackgroundWrapper>
       <Toaster position="top-center" richColors/> 
-      <GoBackButton onClick={() => {currentStep != 1 ? setCurrentStep((newnum) => newnum = currentStep - 1) : navigate("/login") }} />
+      <GoBackButton onClick={() => {currentStep !== 1 ? setCurrentStep((newnum) => newnum = currentStep - 1) : navigate("/login") }} />
      <div className="flex flex-col justify-center items-center h-[100vh] fixed top-0">
       {currentStep === 1 && (
         <User_select setCurrentStep={setCurrentStep} accountType={accountType} setAccountType={setAccountType} />
       )}
-      {currentStep === 2 && accountType == "Student" && (
+      {currentStep === 2 && accountType === "Student" && (
         <CreateAcc  setCurrentStep={setCurrentStep} setData={setData}/>
       )}
-      {currentStep === 2 && accountType != "Student" && accountType != "Alumni" && (
+      {currentStep === 2 && accountType !== "Student" && accountType !== "Alumni" && (
         <CreateAcc_T  setCurrentStep={setCurrentStep} setData={setData}/>
       )}
       {currentStep === 3 && (
         <EnterPass password={password} setPassword={setPassword} setCurrentStep={setCurrentStep}/>
       )}
-      {currentStep === 4 && accountType == "Student" && (
+      {currentStep === 4 && accountType === "Student" && (
         <OtpVerify Otp={Otp} setOtp={setOtp}/>
       )}
-      {currentStep === 4 && accountType != "Student" && accountType != "Alumni" && (
+      {currentStep === 4 && accountType !== "Student" && accountType !== "Alumni" && (
         <OtpVerify_T Otp={Otp} setOtp={setOtp}/>
       )}
       </div>
