@@ -75,7 +75,7 @@ const CreateAcc_T = ({ setCurrentStep, setData }) => {
               onSubmit={async (values) => {
                 const errors = await validateForm(values);
                 if (Object.keys(errors).length === 0) {
-                    setData ( {
+                    setData({
                     ...values}
                   );
                   setCurrentStep(3);
