@@ -99,8 +99,8 @@ const Events = ({
   };
 
   return (
-    <div className={cn("relative flex p-3 sm:p-4 max-w-5xl w-full min-h-[200px] sm:h-[23%]", className)}>
-      <div className="flex flex-col flex-1 min-w-0 gap-2 sm:gap-3">
+    <div className={cn("relative flex   max-w-5xl w-full min-h-[200px] sm:h-[23%]", className)}>
+      <div className="flex flex-col flex-1 min-w-0  sm:gap-3">
         <div className="flex justify-between items-start sm:items-center text-xs text-gray-500">
           <div className="flex gap-2 sm:gap-5 items-center flex-wrap">
             <div className="flex items-center gap-2 sm:gap-4">
