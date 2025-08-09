@@ -8,22 +8,6 @@ import Badge from "@/components/custom/Badge";
 import Logo from "@/components/custom/logo";
 import Resource from "@/components/custom/Resource";
 import Question from "@/components/custom/Question";
-<<<<<<< HEAD
-import Events from "@/components/custom/Event";
-import Sidebar from "@/components/custom/sidebar";
-import Navbar from "@/components/custom/UserNavBar";
-import TopBar from "@/components/custom/TopBar";
-import AccType from "./pages/auth/SignUp/AccType";
-import Login from "./pages/auth/Login";
-
-function App() {
-
-  return (
-    <>
-      <Login />
-    </>
-=======
-
 import Login from "@/src/pages/auth/Login";
 import AccType from "./pages/auth/SignUp/AccType";
 import CreateAcc from "./pages/auth/SignUp/CreateAcc";
@@ -48,7 +32,6 @@ function App() {
         <Route path="/signup/pass" element={<EnterPass />} />
       </Routes>
     </Router>
->>>>>>> e1ded80d5d522d9913c942f71bbf01105dcfc18b
   );
 }
 

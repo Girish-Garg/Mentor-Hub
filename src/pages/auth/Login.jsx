@@ -1,19 +1,4 @@
 import React from "react";
-<<<<<<< HEAD
-import { Phone, KeyRound, UserRoundSearch } from "lucide-react";
-import mbmImage from '/mbm.png'
-import Logo from "@/components/custom/logo";
-
-const handleSignIn = () => {
-  try {
-    
-  } catch (error) {
-    
-  }
-}
-
-const Login = () => {   
-=======
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -47,8 +32,6 @@ const Login = () => {
     e.preventDefault();
     navigate("/signup/type");
   };
-
->>>>>>> e1ded80d5d522d9913c942f71bbf01105dcfc18b
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-[1fr_1.5fr] bg-white">
       <div className="relative flex flex-col justify-center items-center px-8 sm:px-16 md:px-24">
@@ -136,12 +119,8 @@ const Login = () => {
 
             <button
               type="submit"
-<<<<<<< HEAD
               className="w-full mt-2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200 hover:cursor-pointer"
               onClick={handleSignIn}
-=======
-              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
->>>>>>> e1ded80d5d522d9913c942f71bbf01105dcfc18b
             >
               Log in
             </button>

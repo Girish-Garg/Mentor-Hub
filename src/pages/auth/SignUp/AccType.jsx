@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { ChevronLeft, UserRoundPlus } from "lucide-react";
-<<<<<<< HEAD
-import { cn } from "@/components/lib/utils";
-
-=======
 import { useNavigate } from "react-router-dom";
 import BackgroundWrapper from "../../../../components/custom/BackgroundWrapper";
 import GoBackButton from "../../../../components/custom/GoBackButton";
 import { Toaster, toast } from "sonner"; 
 import Combobox from "../../../../components/custom/Combobox";
->>>>>>> e1ded80d5d522d9913c942f71bbf01105dcfc18b
+
 const AccType = () => {
   const navigate = useNavigate();
   const [accountType, setAccountType] = useState("");
