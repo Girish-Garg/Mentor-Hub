@@ -7,6 +7,7 @@ import { KeyRound, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import mbmImage from "/mbm.png";
 import Logo from "../../../components/custom/logo";
+import { Toaster, toast } from "sonner";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -20,16 +21,19 @@ const schema = yup.object().shape({
 });
 
 const Login = () => {
-  const { getToken } = useAuth();
   const navigate = useNavigate();
   const { isLoaded, signIn, setActive } = useSignIn();
   const { user } = useUser();
   // For managing button enable/disable state in frontend
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    if (user && isLoaded) {
-      console.log("User signed in:", user.publicMetadata);
-      alert("Welcome back, " + user.id + "!");
+    async function checkUser() {
+        toast.success("Redirecting to dashboard...");
+        // role ke hisab se redirect karna hai
+        console.log("User type:", user.publicMetadata.role  || "not set");
+    }
+    if (user && isLoaded){
+     checkUser();
     }
   }, [user, isLoaded]);
   const {
@@ -45,17 +49,11 @@ const Login = () => {
     e?.preventDefault();
     setIsLoading(true);
     if (!isLoaded) {
-      console.error("Clerk is not loaded yet.");
+      toast.error("Please try again later");
       return;
     }
     try {
-      console.log("User Token", await getToken());
       // no 2fa
-      if (data.agree !== true) {
-        alert("You must accept the terms and conditions to proceed.");
-        setIsLoading(false);
-        return;
-      }
       const step1 = await signIn.create({
         identifier: data.email.trim(),
         password: data.password.trim(),
@@ -69,14 +67,14 @@ const Login = () => {
         console.log("Sign-in successful:", step1);
       }
     } catch (error) {
-      console.error("Sign-in failed:", error);
-      alert("Sign-in failed. Please check your credentials.");
+      toast.error("Sign-in failed. Please check your credentials.");
     } finally {
-      console.log("User Token", await getToken());
       setIsLoading(false);
     }
   };
   return (
+    <>
+    <Toaster position="top-center" richColors />
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-[1fr_1.5fr] bg-white">
       <div className="relative flex flex-col justify-center items-center px-8 sm:px-16 md:px-24">
         <Logo className="absolute top-2 left-2 scale-75" />
@@ -121,9 +119,7 @@ const Login = () => {
                 />
               </div>
               {errors.email && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.email.message}
-                </p>
+                <div onLoad={toast.error(errors.email.message)}></div>
               )}
             </div>
 
@@ -143,19 +139,15 @@ const Login = () => {
                   id="password"
                   {...register("password")}
                   placeholder="Enter your password"
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500*}"
                 />
               </div>
               {errors.password && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.password.message}
-                </p>
+                <div onLoad={toast.error(errors.password.message)}></div>
               )}
             </div>
             {errors.agree && (
-              <p className="text-sm text-red-500 mt-1">
-                {errors.agree.message}
-              </p>
+              <div onLoad={toast.error(errors.agree.message)}></div>
             )}
             <div className="flex items-center justify-between text-sm text-gray-600">
               <label className="flex items-center text-sm text-gray-700">
@@ -163,24 +155,25 @@ const Login = () => {
                   type="checkbox"
                   id="clerk-captcha"
                   {...register("agree")}
-                  className="mr-2"
+                  className="mr-2 "
                 />
-                You agree to our{" "}
+                <p>
+                You adhere to our
                 <a
                   href=""
-                  className="text-blue-600 hover:underline"
+                  className="text-blue-600 hover:underline ml-1"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   platform terms
                 </a>
+                </p>
               </label>
 
               <a href="/" className="text-blue-600 hover:underline">
                 Forgot password
               </a>
             </div>
-
             <button
               type="submit"
               className="w-full mt-2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200 hover:cursor-pointer"
@@ -211,6 +204,8 @@ const Login = () => {
         />
       </div>
     </div>
+    </>
+
   );
 };
 
