@@ -1,7 +1,16 @@
 import React from "react";
 import { Phone, KeyRound, UserRoundSearch } from "lucide-react";
 import mbmImage from '/mbm.png'
-import Logo from "../../../components/custom/logo";
+import Logo from "@/components/custom/logo";
+
+const handleSignIn = () => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
 const Login = () => {   
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-[1fr_1.5fr] bg-white">
@@ -59,6 +68,7 @@ const Login = () => {
             <button
               type="submit"
               className="w-full mt-2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200 hover:cursor-pointer"
+              onClick={handleSignIn}
             >
               Log in
             </button>

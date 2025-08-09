@@ -19,8 +19,8 @@ const TopBar = ({buttonText, onButtonClick, onSearch, onAvatarClick, onBellIcon}
   return (
     <div className="flex items-center justify-around w-[100vw] h-[6.151vw] bg-white" style={{ paddingTop: '0.417vh', paddingBottom: '0.417vh', paddingLeft: '2.083vw', paddingRight: '2.083vw' }}>
       <div className="flex items-center" style={{ gap: '1.25vw' }}>
-        <Logo />
-        <div className="leading-tight">
+        <Logo className="scale-95"/>
+        <div className="leading-tight select-none">
           <p className="text-[0.521vw] text-[#FF6262]">
             An Student Initiative by M.B.M. University
           </p>
@@ -35,20 +35,20 @@ const TopBar = ({buttonText, onButtonClick, onSearch, onAvatarClick, onBellIcon}
 
       <div className="relative" style={{ width: '50.729vw', height: '5.985vh' }}>
         <span className="absolute top-1/2 transform -translate-y-1/2 text-gray-400" style={{ left: '1.042vw' }}>
-          <Search style={{ width: '1.042vw', height: '1.042vw' }} />
+          <Search style={{ width: '1.2vw', height: '1.2vw' }} />
         </span>
         <input
           type="text"
           placeholder="Search Questions...."
           className="w-full h-full border border-[rgba(0,0,0,0.18)] rounded-[35px] outline-none focus:ring-2 focus:ring-red-400"
-          style={{ paddingLeft: '3.125vw', paddingRight: '1.042vw', fontSize: '0.833vw' }}
+          style={{ paddingLeft: '3.125vw', paddingRight: '1.042vw', fontSize: '1vw' }}
           onChange={(e) => onSearch(e.target.value)}
         />
       </div>
 
-      <button onClick={onButtonClick} className="bg-[#FF5757] hover:bg-red-500 text-white font-semibold rounded-full flex items-center transition-colors hover:cursor-pointer" style={{ paddingLeft: '1.25vw', paddingRight: '1.25vw', gap: '0.621vw', height: '5.9vh', fontSize: '0.833vw' }}>
-        <FilePen style={{ width: '1.042vw', height: '5.985vh' }} />
-        <span className="whitespace-nowrap">{buttonText}</span>
+      <button onClick={onButtonClick} className="bg-[#FF5757] hover:bg-red-500 text-white font-semibold rounded-full flex items-center justify-center transition-colors hover:cursor-pointer" style={{ paddingLeft: '1.25vw', paddingRight: '1.25vw', gap: '0.621vw', height: '5.9vh', fontSize: '0.833vw' }}>
+        <FilePen className="scale-75" />
+        <span className="whitespace-nowrap text-[1vw]">{buttonText}</span>
       </button>
 
       <button style={{ padding: '0.521vh' }} onClick={onBellIcon}>

@@ -1,6 +1,6 @@
 import React from "react";
 import { ChevronLeft, UserRoundPlus } from "lucide-react";
-import { cn } from "../lib/utils";
+import { cn } from "@/components/lib/utils";
 
 const AccType = () => {
   return (
