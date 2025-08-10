@@ -1,5 +1,5 @@
 import React from "react";
-import { TopBar, UserNavBar as Navbar, Sidebar, Question } from "../../components/custom";
+import { TopBar, UserNavBar as Navbar, Sidebar, Question } from "../../../components/custom";
 import { useState } from "react";
 
 function HomePage() {
