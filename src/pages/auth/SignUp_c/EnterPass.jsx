@@ -42,7 +42,6 @@ const EnterPass = ({password,setPassword,setCurrentStep}) => {
       toast.error("You must agree to the rules and regulations");
       return;
     }
-    toast.success("Password set successfully!");
     setCurrentStep(4);
   };
 

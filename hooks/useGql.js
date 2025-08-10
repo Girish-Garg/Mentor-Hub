@@ -1,18 +1,20 @@
 import { useState, useCallback } from "react";
-import gqlClient from "@/utils/gqlClient";
+import { gqlClient } from "@/utils/gqlClient";
 
-export default useGql = async (query, variables = {}, options = {}) => {
-    const [data, setData] = useState(null);
+const useGql = () => {
+    const [gqlData, setData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const executeQuery = useCallback(async () => {
+    const executeQuery = useCallback(async (query, variables = {}, options = {}) => {
         setLoading(true);
+        setError(null);
         try {
             const response = await gqlClient(query, variables, options);
             setData(response.data);
         } catch (err) {
-            setError(err);
+            setError(err.message);
+            throw err;
         } finally {
             setLoading(false);
         }
@@ -22,7 +24,9 @@ export default useGql = async (query, variables = {}, options = {}) => {
         setData(null);
         setLoading(false);
         setError(null);
-    }, []); 
+    }, []);
 
     return { gqlData, loading, error, executeQuery, reset };
 }
+
+export default useGql;

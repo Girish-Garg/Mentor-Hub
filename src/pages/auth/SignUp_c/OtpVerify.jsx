@@ -2,11 +2,10 @@
 import React, { useState, useEffect } from "react";
 import {  MessageSquareMore } from "lucide-react";
 
-const OtpVerify = ({otp, setOtp}) => {
+const OtpVerify = ({otp, setOtp, last4Digits, setSubmit, setisResending ,isResending}) => {
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
-  const [resendTimer, setResendTimer] = useState(60);
-  const [isResending, setIsResending] = useState(false);
+  const [resendTimer, setResendTimer] = useState(5);
 
   useEffect(() => {
     if (resendTimer > 0) {
@@ -18,30 +17,21 @@ const OtpVerify = ({otp, setOtp}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-
+    
     if (!agreed) {
       setError("You must agree to the rules and regulations.");
       return;
     }
-
-    if (!/^\d{6}$/.test(otp)) {
-      setError("Please enter a valid 6-digit OTP.");
-      return;
-    }
-
+    setSubmit(true);
   };
-
-  const handleResendOtp = async () => {
-    setIsResending(true);
-    try {
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setResendTimer(60);
-    } catch (err) {
-      console.error("Error resending OTP", err);
-    } finally {
-      setIsResending(false);
+  useEffect(() => {
+    if (!isResending) {
+      setResendTimer(5);
     }
+  }, [isResending]);
+  const handleResendOtp = async () => {
+    setisResending(true);
+   
   };
 
   return (
@@ -69,7 +59,7 @@ const OtpVerify = ({otp, setOtp}) => {
                 htmlFor="otp"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Enter your OTP (mobile number ending - XX09)
+                Enter your OTP (mobile number ending - {last4Digits})
               </label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
