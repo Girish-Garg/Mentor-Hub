@@ -16,7 +16,7 @@ const formatTo12DigitBlocks = (value) => {
   return onlyDigits.replace(/(\d{4})(?=\d)/g, "$1 ");
 };
 const validationSchema = yup.object().shape({
-  fullname: yup.string().required("Full name is required"),
+  fullName: yup.string().required("Full name is required"),
   department: yup.string().required("Branch is required"),
   academicYear: yup.string().required("Year is required"),
   email: yup
@@ -92,7 +92,7 @@ const CreateAcc = ({setCurrentStep, setData}) => {
 
             <Formik
               initialValues={{
-                fullname: "",
+                fullName: "",
                 department: "",
                 academicYear: "",
                 email: "",
@@ -123,7 +123,7 @@ const CreateAcc = ({setCurrentStep, setData}) => {
                         <Contact className="w-4 h-4 text-gray-400" />
                       </span>
                       <Field
-                        name="fullname"
+                        name="fullName"
                         placeholder="Enter your full name"
                         className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required

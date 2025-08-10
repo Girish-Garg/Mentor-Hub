@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BackgroundWrapper, GoBackButton } from "../../../components/custom";
-import { Toaster } from "sonner";
+import { BackgroundWrapper, GoBackButton } from "@/components/custom";
+import { Toaster, toast } from "sonner";
+import useGQL from "@/hooks/useGQL";
+import axios from "axios";
 import {
   User_select,
   CreateAcc,
@@ -13,6 +15,7 @@ import {
 import { useUser } from "@clerk/clerk-react";
 
 const Signup = () => {
+  const { gqlData, loading, error, executeQuery, reset } = useGQL();
   const { getToken } = useUser();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
@@ -21,26 +24,40 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [Otp, setOtp] = useState("");
 
+  const SEND_OTP_MUTATION = `
+    mutation StudentSignup($sendOtpInput: SendOtpInput!) {
+      sendOtp(input: $sendOtpInput) {
+        success
+        phoneNumber
+      }
+    }
+  `;
+
   useEffect(() => {
     console.log(data);
   }, [data]);
 
   useEffect(() => {
     if (currentStep === 4 && accountType === "Student") {
-      async function fetchData() {
-        const token = await getToken();
-        fetch("/graphql", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: {
-            query: `mutation sentOtp(){}`
-          },
-        });
+      async function sendOtp() {
+        try {
+          // const token = await getToken();
+          await executeQuery(SEND_OTP_MUTATION, {
+            sendOtpInput: data,
+          });
+        } catch (err) {
+          console.log("Error in sending otp: ", err);
+          
+          toast.error(error);
+        }
       }
-      fetchData();
+      
+      console.log('Called sendOtp');
+      sendOtp().then((response) => {
+        console.log("Success:", response);
+      }).catch((error) => {
+        console.error("Failed to send OTP:", error);
+      });
     }
   }, [data, currentStep, accountType]);
 
