@@ -13,11 +13,10 @@ if (!PUBLISHABLE_KEY) {
   console.error("VITE_CLERK_PUBLISHABLE_KEY is not defined. Please set it in your .env file.");
 }
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} >
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <App />
       </MantineProvider>
     </ClerkProvider>
-  </StrictMode>,
+  
 )

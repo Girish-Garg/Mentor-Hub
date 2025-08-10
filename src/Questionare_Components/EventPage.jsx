@@ -1,9 +1,6 @@
 import React from "react";
-import TopBar from "../../components/custom/TopBar";
-import Navbar from "../../components/custom/UserNavBar";
-import Sidebar from "../../components/custom/sidebar";
+import { TopBar, UserNavBar as Navbar, Sidebar, Event as Events } from "../../components/custom";
 import { useState } from "react";
-import Events from "../../components/custom/Event";
 
 function EventPage() {
   const questionsData = [

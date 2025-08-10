@@ -1,13 +1,8 @@
 
 import React, { useState, useEffect } from "react";
-import BackgroundWrapper from "../../../../components/custom/BackgroundWrapper";
-import GoBackButton from "../../../../components/custom/GoBackButton";
-import { UserRoundPlus, MessageSquareMore } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import {  MessageSquareMore } from "lucide-react";
 
-const OtpVerify = () => {
-  const navigate = useNavigate();
-  const [otp, setOtp] = useState("");
+const OtpVerify = ({otp, setOtp}) => {
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
   const [resendTimer, setResendTimer] = useState(60);
@@ -34,8 +29,6 @@ const OtpVerify = () => {
       return;
     }
 
-    // If passed validation
-    navigate("/signup/pass");
   };
 
   const handleResendOtp = async () => {
@@ -52,17 +45,15 @@ const OtpVerify = () => {
   };
 
   return (
-    <BackgroundWrapper>
-      <GoBackButton onClick={() => navigate("/signup/create")} />
-      <div className="relative z-10 min-h-screen px-4 pt-20">
-        <div className="mt-12 flex justify-center">
+      <div className="relative z-10 h-max w-[100vw]">
+        <div className="flex justify-center">
           <form
             onSubmit={handleSubmit}
             className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md text-center"
           >
             <div className="flex justify-center mb-4">
               <div className="flex items-center justify-center w-12 h-12 text-gray-600 border-2 border-gray-400 rounded-md">
-                <UserRoundPlus strokeWidth={2} className="w-6 h-6" />
+                <img src="/Add_user_icon.svg"  className="w-[20px] aspect-[0.815]" />
               </div>
             </div>
 
@@ -145,7 +136,6 @@ const OtpVerify = () => {
           </form>
         </div>
       </div>
-    </BackgroundWrapper>
   );
 };
 
