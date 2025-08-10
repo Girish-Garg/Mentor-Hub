@@ -63,7 +63,6 @@ const CreateAcc_T = ({ setCurrentStep, setData }) => {
             <p className="text-sm text-gray-500 text-center mb-8">
               Please enter your detail to get started
             </p>
-
             <Formik
               initialValues={{
                 fullName: "",
@@ -165,7 +164,6 @@ const CreateAcc_T = ({ setCurrentStep, setData }) => {
                 </Form>
               )}
             </Formik>
-
             <p className="text-sm text-gray-600 text-center mt-3">
               Have an account?{" "}
               <a href="/" className="text-blue-600 hover:underline">

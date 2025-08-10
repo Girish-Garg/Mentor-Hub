@@ -16,21 +16,21 @@ const formatTo12DigitBlocks = (value) => {
   return onlyDigits.replace(/(\d{4})(?=\d)/g, "$1 ");
 };
 const validationSchema = yup.object().shape({
-  name: yup.string().required("Full name is required"),
-  branch: yup.string().required("Branch is required"),
-  year: yup.string().required("Year is required"),
+  fullname: yup.string().required("Full name is required"),
+  department: yup.string().required("Branch is required"),
+  academicYear: yup.string().required("Year is required"),
   email: yup
     .string()
     .email("Invalid email format")
     .required("Email is required"),
-  aadhar: yup
+  aadharNumber: yup
     .string()
     .required("Aadhar ID is required")
     .test("valid-aadhar", "Invalid Aadhar ID", (value) => {
       if (!value) return false; // Do not allow empty values to pass
       return /^[2-9]{1}[0-9]{3}\s?[0-9]{4}\s?[0-9]{4}$/.test(value);
     }),
-  abc: yup
+  abcId: yup
     .string()
     .nullable()
     .test("valid-abc", "Invalid ABC ID", (value) => {
@@ -92,21 +92,21 @@ const CreateAcc = ({setCurrentStep, setData}) => {
 
             <Formik
               initialValues={{
-                name: "",
-                branch: "",
-                year: "",
+                fullname: "",
+                department: "",
+                academicYear: "",
                 email: "",
-                aadhar: "",
-                abc: "",
+                aadharNumber: "",
+                abcId: "",
                 confirm: false,
               }}
               onSubmit={async (values) => {
                 const errors = await validateForm(values);
                 if (Object.keys(errors).length === 0) {
-                  setData({
+                  setData ( {
                     ...values,
-                    aadhar: values.aadhar.replace(/\s/g, ""),
-                    abc: values.abc.replace(/\s/g, ""),
+                    aadharNumber: values.aadharNumber.replace(/\s/g, ""),
+                    abcId: values.abcId.replace(/\s/g, ""),
                   });
                   setCurrentStep(3);
                 }
@@ -123,7 +123,7 @@ const CreateAcc = ({setCurrentStep, setData}) => {
                         <Contact className="w-4 h-4 text-gray-400" />
                       </span>
                       <Field
-                        name="name"
+                        name="fullname"
                         placeholder="Enter your full name"
                         className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-zinc-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
@@ -142,7 +142,7 @@ const CreateAcc = ({setCurrentStep, setData}) => {
                         <Combobox
                           options={branchOptions}
                           placeholder="Select Branch"
-                          onChange={(value) => setFieldValue("branch", value)}
+                          onChange={(value) => setFieldValue("department", value)}
                         />
                       </div>
                     </div>
@@ -159,7 +159,7 @@ const CreateAcc = ({setCurrentStep, setData}) => {
                         <Combobox
                           options={yearOptions}
                           placeholder="Select Year"
-                          onChange={(value) => setFieldValue("year", value)}
+                          onChange={(value) => setFieldValue("academicYear", value)}
                         />
                       </div>
                     </div>
@@ -191,11 +191,11 @@ const CreateAcc = ({setCurrentStep, setData}) => {
                       </span>
                       <input
                         type="text"
-                        name="aadhar"
-                        value={values.aadhar}
+                        name="aadharNumber"
+                        value={values.aadharNumber}
                         onChange={(e) =>
                           setFieldValue(
-                            "aadhar",
+                            "aadharNumber",
                             formatTo12DigitBlocks(e.target.value)
                           )
                         }
@@ -214,11 +214,11 @@ const CreateAcc = ({setCurrentStep, setData}) => {
                       </span>
                       <input
                         type="text"
-                        name="abc"
-                        value={values.abc}
+                        name="abcId"
+                        value={values.abcId}
                         onChange={(e) =>
                           setFieldValue(
-                            "abc",
+                            "abcId",
                             formatTo12DigitBlocks(e.target.value)
                           )
                         }
