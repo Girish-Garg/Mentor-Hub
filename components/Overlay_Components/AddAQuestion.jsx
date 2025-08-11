@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { MultiSelect } from '@mantine/core';
 import { SquarePen, CircleX, Maximize2, X } from "lucide-react";
 
-export default function AddQuestion() {
+export default function AddQuestion({ onClose }) {
   const [question, setQuestion] = useState("");
   const [tags] = useState("");
   const [quillContent, setQuillContent] = useState("");
@@ -14,11 +14,41 @@ export default function AddQuestion() {
   const [isQuestionInvalid, setIsQuestionInvalid] = useState(false);
 
   const [fileError, setFileError] = useState("");
+  const modalRef = useRef(null);
 
   const isMediaInvalid = mediaFiles.length > 3;
   const isFilesInvalid = files.length > 2;
 
   const isFormInvalid = isQuestionInvalid || isMediaInvalid || isFilesInvalid;
+
+  // Handle ESC key press and click outside
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target) && onClose) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
+
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -65,7 +95,8 @@ export default function AddQuestion() {
   };
 
   return (
-    <div className="w-[69.74vw] mx-auto bg-white rounded-xl shadow-md px-[1.25vw]">
+    <div className="w-screen h-screen fixed overflow-hidden flex flex-col z-10 items-center justify-center backdrop-blur-[3px]">
+    <div ref={modalRef} className="w-[69.74vw] fixed  bg-white  rounded-xl shadow-md px-[1.25vw]">
       <div className="flex justify-between items-center ">
         <div className="flex items-center gap-2 text-base mb-[2.222vh] mt-[2.222vh] font-medium">
           <SquarePen className="w-4 h-4" />
@@ -74,7 +105,10 @@ export default function AddQuestion() {
 
         <div className="flex items-center mb-[2.222vh] mt-[2.222vh] gap-[0.625vw]">
           <Maximize2 className="w-4 h-4 text-gray-400 hover:text-black cursor-pointer" />
-          <CircleX className="w-4 h-4 text-gray-400 hover:text-black cursor-pointer" />
+          <CircleX 
+            className="w-4 h-4 text-gray-400 hover:text-black cursor-pointer" 
+            onClick={handleClose}
+          />
         </div>
       </div>
 
@@ -219,6 +253,7 @@ export default function AddQuestion() {
       >
         Submit
       </button>
+    </div>
     </div>
   );
 }

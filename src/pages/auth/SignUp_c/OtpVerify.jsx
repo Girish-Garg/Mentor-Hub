@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import {  MessageSquareMore } from "lucide-react";
 
-const OtpVerify = ({otp, setOtp, last4Digits, setSubmit, setisResending ,isResending}) => {
+const OtpVerify = ({otp, setOtp, last4Digits, onSubmit, setisResending ,isResending}) => {
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
   const [resendTimer, setResendTimer] = useState(5);
@@ -22,7 +22,10 @@ const OtpVerify = ({otp, setOtp, last4Digits, setSubmit, setisResending ,isResen
       setError("You must agree to the rules and regulations.");
       return;
     }
-    setSubmit(true);
+    
+    if (onSubmit) {
+      onSubmit();
+    }
   };
   useEffect(() => {
     if (!isResending) {

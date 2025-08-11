@@ -1,223 +1,160 @@
-import React from "react";
-import TopBar from "../../components/custom/TopBar";
-import Navbar from "../../components/custom/UserNavBar";
-import Sidebar from "../../components/custom/sidebar";
-import { useState } from "react";
-import Resource from "../../components/custom/Resource";
+import React, { useState } from "react";
+import { ArrowBigUpDash, Bookmark } from "lucide-react";
+import Badge from "./Badge";
+import { cn } from "@/components/lib/utils";
 
-function ResourcePage() {
-  const questionsData = [
-    {
-      title: "Encarta the MBM event...",
-      description:
-        "With the commencement of the 2025 academic session, MBM University proudly presents Encarta, its flagship annual event. Encarta is more than just a fest—it's a grand celebration of innovation, creativity, and cultural vibrance. Held every year,Encarta is a celebration of student energy, creativity and...",
-      uploadTime: "1 min",
-      initialDate: "12/11/2025",
-      finalDate: "15/11/2025",
-      tags: [
-        "College",
-        "Fest",
-        "Students",
-        "Encarta",
-        "MBM University",
-        "Event",
-        "2025",
-        "Jaipur",
-      ],
-    },
-    // Add more items as needed
-  ];
+/**
+ * Question Component - A card component for displaying Q&A forum questions with voting and bookmark functionality
+ * 
+ * @component
+ * @param {Object} props - The component props
+ * @param {string} [props.className] - Additional CSS classes to apply to the main container
+ * @param {string} props.title - The question title (will truncate with ellipsis if too long)
+ * @param {string} props.description - The question description (shows max 2 lines with ellipsis)
+ * @param {string} props.author - The author name (will truncate with ellipsis if too long)
+ * @param {string} props.time - The time when question was posted (e.g., "2 hours")
+ * @param {string[]} [props.tags=[]] - Array of tags (only first 4 will be shown, rest as "+X more")
+ * @param {number} [props.answers=0] - Number of answers for this question
+ * @param {number} [props.initialVotes=0] - The initial upvote count
+ * @param {string|null} [props.initialUserVote=null] - Initial user vote state ("up" or null)
+ * @param {Function} [props.onTitleClick] - Callback when question title is clicked
+ * @param {Function} [props.onUpvote] - Callback when upvote button is clicked. Receives boolean indicating if upvoted
+ * @param {Function} [props.onBookmark] - Callback when bookmark button is clicked. Receives boolean indicating if bookmarked
+ * 
+ */
 
-  const filterConfig = {
-    tags: {
-      title: "Tags",
-      items: [
-        { id: "notices", label: "Notices" },
-        { id: "events", label: "Events" },
-        { id: "counselling", label: "Counselling" },
-        { id: "resources", label: "Resources" },
-        { id: "workshops", label: "Workshops" },
-        { id: "mentorship", label: "Mentorship" },
-        { id: "internships", label: "Internships" },
-        { id: "placements", label: "Placements" },
-        { id: "hackathons", label: "Hackathons" },
-        { id: "competitions", label: "Competitions" },
-        { id: "seminars", label: "Seminars" },
-        { id: "webinars", label: "Webinars" },
-        { id: "conferences", label: "Conferences" },
-        { id: "meetups", label: "Meetups" },
-        { id: "bootcamps", label: "Bootcamps" },
-      ],
-    },
-    department: {
-      title: "Department",
-      items: [
-        { id: "cs", label: "Computer Science" },
-        { id: "it", label: "Information Technology" },
-        { id: "ece", label: "Electronics & Communication" },
-        { id: "me", label: "Mechanical Engineering" },
-        { id: "ce", label: "Civil Engineering" },
-        { id: "ee", label: "Electrical Engineering" },
-        { id: "mba", label: "MBA" },
-        { id: "mca", label: "MCA" },
-        { id: "chem", label: "Chemical Engineering" },
-        { id: "bio", label: "Biomedical Engineering" },
-        { id: "aero", label: "Aerospace Engineering" },
-        { id: "auto", label: "Automobile Engineering" },
-        { id: "textile", label: "Textile Engineering" },
-        { id: "mining", label: "Mining Engineering" },
-        { id: "metal", label: "Metallurgical Engineering" },
-        { id: "food", label: "Food Technology" },
-        { id: "marine", label: "Marine Engineering" },
-        { id: "petro", label: "Petroleum Engineering" },
-        { id: "enviro", label: "Environmental Engineering" },
-        { id: "agri", label: "Agricultural Engineering" },
-        { id: "arch", label: "Architecture" },
-        { id: "physics", label: "Physics" },
-        { id: "chem2", label: "Chemistry" },
-        { id: "math", label: "Mathematics" },
-        { id: "bio2", label: "Biology" },
-        { id: "biotech", label: "Biotechnology" },
-        { id: "micro", label: "Microbiology" },
-        { id: "stats", label: "Statistics" },
-        { id: "econ", label: "Economics" },
-        { id: "bcom", label: "B.Com" },
-        { id: "bba", label: "BBA" },
-        { id: "finance", label: "Finance" },
-        { id: "account", label: "Accounting" },
-        { id: "marketing", label: "Marketing" },
-        { id: "hr", label: "Human Resources" },
-        { id: "law", label: "Law" },
-        { id: "english", label: "English Literature" },
-        { id: "hindi", label: "Hindi Literature" },
-        { id: "history", label: "History" },
-        { id: "geo", label: "Geography" },
-        { id: "polsci", label: "Political Science" },
-        { id: "socio", label: "Sociology" },
-        { id: "psych", label: "Psychology" },
-        { id: "philo", label: "Philosophy" },
-        { id: "journal", label: "Journalism" },
-        { id: "mass", label: "Mass Communication" },
-        { id: "fashion", label: "Fashion Design" },
-        { id: "graphic", label: "Graphic Design" },
-        { id: "interior", label: "Interior Design" },
-        { id: "fine", label: "Fine Arts" },
-        { id: "music", label: "Music" },
-        { id: "dance", label: "Dance" },
-        { id: "theatre", label: "Theatre Arts" },
-        { id: "film", label: "Film Studies" },
-        { id: "photo", label: "Photography" },
-        { id: "nursing", label: "Nursing" },
-        { id: "pharma", label: "Pharmacy" },
-        { id: "dental", label: "Dental" },
-        { id: "physio", label: "Physiotherapy" },
-        { id: "medical", label: "Medical" },
-      ],
-    },
-    academicYear: {
-      title: "Academic Year",
-      items: [
-        { id: "first", label: "First Year" },
-        { id: "second", label: "Second Year" },
-        { id: "third", label: "Third Year" },
-        { id: "fourth", label: "Final Year" },
-      ],
-    },
-    category: {
-      title: "Category",
-      items: [
-        { id: "academic", label: "Academic" },
-        { id: "career", label: "Career Development" },
-        { id: "technical", label: "Technical" },
-        { id: "social", label: "Social Service" },
-      ],
-    },
+const Question = ({
+  className,
+  title = "Untitled Question",
+  description = "No description provided.",
+  author = "Anonymous",
+  time = "Unknown",
+  tags = [],
+  answers = 0,
+  initialVotes = 0,
+  initialUserVote = null,
+  onTitleClick,
+  onUpvote,
+  onBookmark,
+}) => {
+  const [votes, setVotes] = useState(initialVotes);
+  const [userVote, setUserVote] = useState(initialUserVote);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const handleUpvote = (e) => {
+    e.stopPropagation();
+    if (userVote === "up") {
+      setUserVote(null);
+      setVotes(votes - 1);
+    } else {
+      setUserVote("up");
+      setVotes(votes + 1);
+    }
+    onUpvote?.(userVote !== "up");
   };
 
-  const questionsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalPages = Math.ceil(questionsData.length / questionsPerPage);
-  const paginatedQuestions = questionsData.slice(
-    (currentPage - 1) * questionsPerPage,
-    currentPage * questionsPerPage
-  );
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const handleBookmark = (e) => {
+    e.stopPropagation();
+    setIsBookmarked(!isBookmarked);
+    onBookmark?.(!isBookmarked);
   };
 
-  const handleFilterChange = (selectedFilters) => {
-    console.log("Selected filters:", selectedFilters);
-  };
-
-  const handleSearch = (value) => {
-    console.log("Search input:", value);
+  const handleTitleClick = (e) => {
+    e.stopPropagation();
+    onTitleClick?.();
   };
 
   return (
-    <div className="w-screen h-screen bg-white overflow-hidden">
-      <TopBar
-        buttonText="Ask a Question"
-        onButtonClick={() => {}}
-        onSearch={handleSearch}
-        onAvatarClick={() => {}}
-        onBellIcon={() => {}}
-      />
-      <Navbar className="mt-[2.222vh]" />
-      <div className="flex px-[1vw] gap-[2vw] w-full">
-        <Sidebar
-          className="bg-white py-[4.815vh] w-[20%] h-[83vh] border-r flex-shrink-0"
-          filterConfig={filterConfig}
-          onFilterChange={handleFilterChange}
-        />
-        <div className="w-full py-[4.815vh] h-[80vh]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {paginatedQuestions.map((q, index) => (
-              <Resource
-                key={index}
-                title={q.title}
-                description={q.description}
-                uploadTime={q.uploadTime}
-                initialDate={q.initialDate}
-                finalDate={q.finalDate}
-                tags={q.tags}
-              />
-            ))}
-          </div>
-          <div className="flex justify-center items-center mt-[3vh] h-[7.222vh] w-[69.861vw] mx-auto gap-[0.7vw]">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="text-sm px-[1vw] py-[0.7vh] border rounded disabled:opacity-50"
-            >
-              ← Previous
-            </button>
-            {[...Array(totalPages)].map((_, i) => (
+    <div
+      className={cn(
+        "relative flex p-3 sm:p-4  w-full min-h-[200px] sm:h-[23%]",
+        className
+      )}
+    >
+      <div className="flex flex-col flex-1 min-w-0 gap-2 sm:gap-3">
+        <div className="flex justify-between items-start sm:items-center text-xs text-gray-500">
+          <div className="flex gap-2 sm:gap-5 items-center flex-wrap">
+            <div className="flex items-center gap-2 sm:gap-4">
               <button
-                key={i}
-                onClick={() => handlePageChange(i + 1)}
-                className={`text-sm px-[1vw] py-[0.7vh] border rounded ${
-                  currentPage === i + 1
-                    ? "bg-[#1461FC] text-white"
-                    : "text-gray-700"
-                }`}
+                className={cn(
+                  "text-center rounded-full border-2 border-black/10 p-1 sm:p-1.5",
+                  "transition-colors duration-150",
+                  userVote === "up"
+                    ? "bg-red-100 border-red-300 hover:bg-red-200 hover:border-red-400"
+                    : "hover:bg-red-50 hover:border-red-200"
+                )}
+                onClick={handleUpvote}
               >
-                {i + 1}
+                <ArrowBigUpDash
+                  size={18}
+                  className={cn(
+                    "transition-colors duration-150 sm:w-5 sm:h-5",
+                    userVote === "up" ? "text-red-600 hover:text-red-700" : "text-red-500"
+                  )}
+                />
               </button>
-            ))}
+              <span className="text-gray-700 text-xs sm:text-sm font-medium">{votes} upvotes</span>
+            </div>
+            <span className="text-xs sm:text-sm font-medium">{answers} answers</span>
+            <span className="text-xs sm:text-sm">{time} ago</span>
+          </div>
+
+          <div className="flex gap-1 items-center flex-shrink-0">
             <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="text-sm px-[1vw] py-[0.7vh] border rounded disabled:opacity-50"
+              className={cn(
+                "group rounded hover:bg-yellow-50 transition-colors duration-150 flex-shrink-0 p-1",
+                isBookmarked && "text-yellow-500"
+              )}
+              onClick={handleBookmark}
             >
-              Next →
+              <Bookmark
+                size={18}
+                className={cn(
+                  "transition-colors duration-150 sm:w-6 sm:h-6",
+                  isBookmarked
+                    ? "fill-yellow-500 text-yellow-500"
+                    : "text-gray-400 group-hover:text-yellow-500"
+                )}
+              />
             </button>
           </div>
+        </div>
+        <button
+          className="text-left focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-1 rounded-sm w-full"
+          onClick={handleTitleClick}
+        >
+          <h3 className="text-blue-600 font-semibold text-base sm:text-lg hover:text-blue-700 hover:underline transition-colors duration-150 line-clamp-2 sm:line-clamp-1 break-words">
+            {title}
+          </h3>
+        </button>
+
+        <p className="w-full text-sm sm:text-base text-gray-600 line-clamp-2 leading-relaxed text-ellipsis overflow-hidden">
+          {description}
+        </p>
+
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-3">
+          <span className="text-gray-600 text-sm flex items-center gap-1">by <span className="font-medium inline-block max-w-[120px] sm:max-w-[150px] truncate overflow-hidden">{author}</span></span>
+          {tags.length > 0 && (
+            <div className="flex flex-wrap items-center gap-1 sm:gap-2">
+              {tags.slice(0, 4).map((tag, idx) => (
+                <Badge
+                  key={idx}
+                  text={tag}
+                  varient="tag"
+                  className="h-[20px] sm:h-[23px] text-xs sm:text-sm items-center flex justify-center rounded-md"
+                />
+              ))}
+              {tags.length > 4 && (
+                <span className="flex items-center justify-center text-xs h-[20px] sm:h-[23px] text-gray-500 px-2 sm:px-2.5 py-0.5 rounded-md bg-gray-100 border border-gray-200 select-none leading-none">
+                  +{tags.length - 4} more
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default ResourcePage;
+export default Question;

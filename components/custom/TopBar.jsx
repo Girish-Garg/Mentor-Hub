@@ -14,8 +14,9 @@ import { Search, Bell, FilePen } from "lucide-react";
  * @param {Function} props.onBellIcon - Callback function when the bell icon is clicked
  * 
  */
-
+import { useUser }  from "@clerk/clerk-react";
 const TopBar = ({buttonText, onButtonClick, onSearch, onAvatarClick, onBellIcon}) => {
+  const { user } = useUser();
   return (
     <div className="flex items-center justify-around w-[100vw] mt-2 bg-white" style={{ paddingTop: '0.417vh', paddingBottom: '0.417vh', paddingLeft: '2.083vw', paddingRight: '2.083vw' }}>
       <div className="flex items-center" style={{ gap: '1.25vw' }}>
@@ -56,7 +57,7 @@ const TopBar = ({buttonText, onButtonClick, onSearch, onAvatarClick, onBellIcon}
       </button>
 
       <img onClick={onAvatarClick}
-        src="your-profile-pic.jpg"
+        src={user?.imageUrl || "/default-avatar.png"}
         className="rounded-full object-cover cursor-pointer hover:ring-2 hover:ring-red-400 transition-all"
         style={{ width: '2.083vw', height: '2.083vw' }}
         alt="Profile"
