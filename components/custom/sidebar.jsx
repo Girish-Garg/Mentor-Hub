@@ -143,11 +143,10 @@ function Sidebar({
   return (
     <div 
       className={cn(
-        'bg-white flex flex-col w-64 h-screen overflow-x-auto py-6 px-4',
+        'bg-white flex flex-col overflow-y-auto scrollbar-hover smooth-scroll py-6 px-4',
         className
       )}
     >
-      {/* Header */}
       <div className="mb-3 flex-shrink-0">
         <h2 
           className="text-xl font-semibold" 
@@ -157,7 +156,7 @@ function Sidebar({
         </h2>
       </div>
 
-      {/* Filter Sections */}
+
       <div className="flex-1 min-w-0">
         {Object.keys(filterConfig).map(categoryKey => {
           const config = filterConfig[categoryKey]

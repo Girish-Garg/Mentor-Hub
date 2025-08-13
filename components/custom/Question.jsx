@@ -67,9 +67,16 @@ const Question = ({
   return (
     <div
       className={cn(
-        "relative flex p-3 sm:p-4  w-full min-h-[200px] sm:h-[23%]",
+        "relative flex p-3 sm:p-4 w-full min-h-[200px] sm:h-[23%]",
+        "bg-white rounded-lg hover:border hover:border-gray-200 hover:shadow-sm",
+        "transition-all duration-300 ease-out",
+        "hover:border-blue-300 hover:bg-gradient-to-br hover:from-white hover:to-blue-50/50",
+        "transform-gpu backface-hidden",
         className
       )}
+      style={{
+        transformStyle: "preserve-3d"
+      }}
     >
       <div className="flex flex-col flex-1 min-w-0 gap-2 sm:gap-3">
         <div className="flex justify-between items-start sm:items-center text-xs text-gray-500">

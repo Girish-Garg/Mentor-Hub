@@ -39,7 +39,7 @@ const Login = () => {
     if (user && isLoaded) {
       toast.success("Redirecting to dashboard...");
       console.log("User type:", user || "not set");
-      navigate("/dashboard");
+      // navigate("/dashboard");
     }
   }, [user, isLoaded]);
 

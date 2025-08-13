@@ -25,7 +25,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup/>} />
-        <Route path="/dashboard" element={user?.publicMetadata.role === "student" ? <HomePage /> : <Login/>}/>
+        <Route path="/dashboard" element={user?.publicMetadata.userType === "STUDENT" ? <HomePage /> : <Login/>}/>
       </Routes>
     </Router>
   );

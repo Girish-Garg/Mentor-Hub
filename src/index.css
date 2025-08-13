@@ -134,7 +134,260 @@
 
 body {
   overflow-x: hidden;
-  --sb-track-color: #232e33;
-  --sb-thumb-color: #6baf8d;
-  --sb-size: 2px;
+}
+
+/* =============================================
+   CUSTOM SCROLLBAR STYLES
+   ============================================= */
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+::-webkit-scrollbar-corner {
+  background: #f1f5f9;
+}
+
+/* Thin scrollbar variant for smaller containers */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #64748b 0%, #475569 100%);
+}
+
+/* Firefox scrollbar support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #f1f5f9;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #f1f5f9;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
+  border: 1px solid #334155;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+.dark ::-webkit-scrollbar-corner {
+  background: #1e293b;
+}
+
+.dark {
+  scrollbar-color: #6366f1 #1e293b;
+}
+
+/* =============================================
+   SMOOTH SCROLL UTILITIES
+   ============================================= */
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom smooth scroll class */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Enhanced scroll padding for better UX */
+.scroll-padding {
+  scroll-padding-top: 80px;
+}
+
+/* =============================================
+   3D PERSPECTIVE CARD EFFECTS
+   ============================================= */
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* 3D Card Hover Effects */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-3d:hover {
+  transform: perspective(1000px) rotateX(-10deg) rotateY(10deg) translateZ(20px);
+}
+
+/* Prevent clipping for 3D transforms */
+.questions-container {
+  overflow-x: visible !important;
+  padding-right: 3rem;
+}
+
+.questions-container > div {
+  overflow: visible !important;
+}
+
+/* Ensure 3D elements don't get clipped */
+.transform-gpu {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Advanced 3D Effects */
+.card-tilt {
+  transition: all 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99);
+  transform-style: preserve-3d;
+}
+
+.card-tilt:hover {
+  transform: perspective(1000px) rotateX(-5deg) rotateY(5deg) scale(1.02);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 
+              0 0 30px rgba(99, 102, 241, 0.3);
+}
+
+/* Floating effect */
+.card-float {
+  transition: all 0.3s ease;
+}
+
+.card-float:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15),
+              0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+/* 3D Depth layers */
+.depth-layer {
+  position: relative;
+}
+
+.depth-layer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(99, 102, 241, 0.1) 100%);
+  transform: translateZ(-1px);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  border-radius: inherit;
+}
+
+.depth-layer:hover::before {
+  opacity: 1;
+}
+
+/* =============================================
+   HOVER SCROLL EFFECTS
+   ============================================= */
+
+/* Show scrollbar only on hover for clean UI */
+.scrollbar-hover {
+  overflow: auto;
+}
+
+.scrollbar-hover::-webkit-scrollbar {
+  width: 0px;
+  transition: width 0.3s ease-in-out;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-hover::-webkit-scrollbar-track {
+  background: transparent;
+  transition: background 0.3s ease-in-out;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10px;
+  transition: background 0.3s ease-in-out;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+/* =============================================
+   MODAL/OVERLAY SPECIFIC SCROLLBAR
+   ============================================= */
+
+.modal-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.8);
+  border-radius: 8px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%);
+  border-radius: 8px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(79, 70, 229, 0.9) 0%, rgba(124, 58, 237, 0.9) 100%);
 }
