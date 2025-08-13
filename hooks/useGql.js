@@ -12,6 +12,7 @@ const useGql = () => {
         try {
             const response = await gqlClient(query, variables, options);
             setData(response.data);
+            return response.data; // Return the data so it can be used in the calling function
         } catch (err) {
             setError(err.message);
             throw err;

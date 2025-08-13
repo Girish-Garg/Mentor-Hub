@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackgroundWrapper, GoBackButton } from "@/components/custom";
 import { Toaster, toast } from "sonner";
@@ -11,128 +11,126 @@ import {
   OtpVerify,
   OtpVerify_T,
 } from "./SignUp_c";
-import { useUser } from "@clerk/clerk-react";
+import { useAuth } from "@clerk/clerk-react";
+
+const SEND_OTP_MUTATION = `
+  mutation StudentSignup($sendOtpInput: SendOtpInput!) {
+    sendOtp(input: $sendOtpInput) {
+      success
+      userId
+      phoneNumber
+    }
+  }
+`;
+
+const STUDENT_SIGNUP_MUTATION = `
+  mutation StudentSignup($input: StudentSignupInput!) {
+    studentSignup(input: $input) {
+      userType
+      success
+    }
+  }
+`;
 
 const Signup = () => {
-  const { gqlData, loading, error, executeQuery } = useGql();
-  const { getToken } = useUser();
+  const { gqlData, executeQuery } = useGql();
+  const { isSignedIn } = useAuth();
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [accountType, setAccountType] = useState("");
-  const [data, setData] = useState({});
+  const [formData, setFormData] = useState({});
   const [password, setPassword] = useState("");
-  const [Otp, setOtp] = useState("");
+  const [otp, setOtp] = useState("");
   const [last4Digits, setLast4Digits] = useState("XXXX");
-  const [submit, setSubmit] = useState(false);
-  const [isResending, setisResending] = useState(false);
-  const SEND_OTP_MUTATION = `
-    mutation StudentSignup($sendOtpInput: SendOtpInput!) {
-      sendOtp(input: $sendOtpInput) {
-        success
-        userId
-        phoneNumber
-      }
-    }
-  `;
+  const [isResending, setIsResending] = useState(false);
 
-  const STUDENT_SIGNUP_MUTATION = `
-    mutation StudentSignup($input: StudentSignupInput!) {
-      studentSignup(input: $input) {
-        userType
-        success
-      }
+  // Redirect if logged in
+  useEffect(() => {
+    if (isSignedIn) {
+      toast.error("Cannot signup while logged in");
+      setTimeout(() => navigate("/login"), 400);
     }
-  `;
-   const submitData = async ()=>{
+  }, [isSignedIn, navigate]);
+
+  const sendOtp = useCallback(async () => {
     try {
-          await executeQuery(STUDENT_SIGNUP_MUTATION, {
-            input: {
-              otp: parseInt(Otp),
-              password: password,
-              userId: gqlData.sendOtp.userId,
-            }
-          });
-          setSubmit(false);
-        } catch (err) {
-          console.log("Error in creating user: ", err.message);
-          toast.error(err.message);
-    }
-          setSubmit(false);
-
-   }    
-  useEffect(() => {
-    if (submit && currentStep === 4 && accountType === "Student") {
-      console.log("Submitting data...");
-      submitData();
-    }
-  },[submit]);
-  useEffect(() => {
-    console.log(data);
-    console.log("gqlData: ", gqlData);
-    if (gqlData) {
-      if(!gqlData?.sendOtp?.success || !gqlData?.studentSignup?.success) {
-        toast.error("Failed to send OTP. Please try again.");
+      const result = await executeQuery(SEND_OTP_MUTATION, {
+        sendOtpInput: formData,
+      });
+      
+      // Check if result exists and has the expected structure
+      if (!result || typeof result !== 'object') {
+        console.error("Invalid response structure:", result);
+        toast.error("Invalid server response. Please try again.");
         setCurrentStep(1);
         return;
       }
-      else{
+
+      const { success, phoneNumber } = result.sendOtp || {};
+      if (success) {
         toast.success("OTP sent successfully!");
+        setLast4Digits(phoneNumber);
+      } else {
+        toast.error("Failed to send OTP. Please try again.");
+        setCurrentStep(1);
       }
-      setLast4Digits(gqlData?.sendOtp?.phoneNumber);
-    } 
-  }, [gqlData]);
-  useEffect(()=>{
-    if (currentStep === 4 && accountType === "Student", isResending){
-      async function sendOtp() {
-        try {
-          await executeQuery(SEND_OTP_MUTATION, {
-            sendOtpInput: data,
-          });
-          setTimeout(() => {
-          setisResending(false);
-          }, 2);
-        } catch (err) {
-          console.log("Error in sending otp: ", err);
-          toast.error(error);
-        }
-      }
-      sendOtp();
-      console.log('Called sendOtp');
+    } catch (err) {
+      console.error("Error sending OTP:", err);
+      toast.error(err?.message || "Error sending OTP");
+      setCurrentStep(1);
+    } finally {
+      setIsResending(false);
     }
-  },[isResending]);
-  useEffect(() => {
-    if (currentStep === 4 && accountType === "Student" ) {
-      async function sendOtp() {
-        try {
-          // const token = await getToken();
-          await executeQuery(SEND_OTP_MUTATION, {
-            sendOtpInput: data,
-          });
+  }, [executeQuery, formData]);
 
-        } catch (err) {
-          console.log("Error in sending otp: ", err);
-          toast.error(error);
-        }
+  const submitData = useCallback(async () => {
+    try {
+      const result = await executeQuery(STUDENT_SIGNUP_MUTATION, {
+        input: {
+          otp: parseInt(otp, 10),
+          password,
+          userId: gqlData?.sendOtp?.userId,
+        },
+      });
+
+      if (result?.studentSignup?.success) {
+        toast.success("User created successfully!");
+        setTimeout(() => navigate("/login"), 300);
+      } else {
+        toast.error("Failed to create user. Please try again.");
+        setCurrentStep(1);
       }
-      sendOtp();
-      console.log('Called sendOtp');
+    } catch (err) {
+      console.error("Error creating user:", err);
+      toast.error(err.message || "Error creating user");
     }
-  }, [data, currentStep , accountType]);
+  }, [executeQuery, gqlData, otp, password, navigate]);
 
+  // Send OTP when step 4 for Student
   useEffect(() => {
+    if (currentStep === 4 && accountType === "Student" && !isResending) {
+      sendOtp();
+    }
+  }, [currentStep, accountType, sendOtp, isResending]);
 
-  },[submit]);
+  // Handle OTP resend
+  useEffect(() => {
+    if (isResending) {
+      sendOtp();
+    }
+  }, [isResending, sendOtp]);
+
   return (
-    <BackgroundWrapper> 
+    <BackgroundWrapper>
       <Toaster position="top-center" richColors />
       <GoBackButton
-        onClick={() => {
+        onClick={() =>
           currentStep !== 1
-            ? setCurrentStep((newnum) => (newnum = currentStep - 1))
-            : navigate("/login");
-        }}
+            ? setCurrentStep((step) => step - 1)
+            : navigate("/login")
+        }
       />
-      <div className="flex flex-col justify-center items-center h-[100vh] fixed top-0">
+      <div className="flex flex-col justify-center items-center h-screen fixed top-0">
         {currentStep === 1 && (
           <User_select
             setCurrentStep={setCurrentStep}
@@ -141,12 +139,12 @@ const Signup = () => {
           />
         )}
         {currentStep === 2 && accountType === "Student" && (
-          <CreateAcc setCurrentStep={setCurrentStep} setData={setData} />
+          <CreateAcc setCurrentStep={setCurrentStep} setData={setFormData} />
         )}
         {currentStep === 2 &&
           accountType !== "Student" &&
           accountType !== "Alumni" && (
-            <CreateAcc_T setCurrentStep={setCurrentStep} setData={setData} />
+            <CreateAcc_T setCurrentStep={setCurrentStep} setData={setFormData} />
           )}
         {currentStep === 3 && (
           <EnterPass
@@ -156,11 +154,21 @@ const Signup = () => {
           />
         )}
         {currentStep === 4 && accountType === "Student" && (
-          <OtpVerify  last4Digits={last4Digits} Otp={Otp} setOtp={setOtp} password={password} setSubmit={setSubmit} setisResending={setisResending} isResending={isResending}  />
+          <OtpVerify
+            last4Digits={last4Digits}
+            Otp={otp}
+            setOtp={setOtp}
+            password={password}
+            onSubmit={submitData}
+            setisResending={setIsResending}
+            isResending={isResending}
+          />
         )}
         {currentStep === 4 &&
           accountType !== "Student" &&
-          accountType !== "Alumni" && <OtpVerify_T  Otp={Otp} setOtp={setOtp} />}
+          accountType !== "Alumni" && (
+            <OtpVerify_T Otp={otp} setOtp={setOtp} />
+          )}
       </div>
     </BackgroundWrapper>
   );
