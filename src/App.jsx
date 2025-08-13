@@ -12,13 +12,6 @@ import { useUser} from '@clerk/clerk-react';
 import HomePage from './pages/HomePage';
 function App() {
   const { user } = useUser();
-  useEffect(() => {
-    if (user) {
-      console.log("User is logged in:", user);  
-    } else {
-      console.log("No user is logged in");
-    }
-  }, [user]);
   return (
     <Router>
       <Routes>
