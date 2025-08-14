@@ -12,12 +12,10 @@ import { ChevronUp } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
 import { questionsData, filterConfig } from "../../Dev/var";
 function HomePage() {
-  const { getToken } = useAuth();
   const questionsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [ask, setAsk] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
-
   const totalPages = Math.max(
     1,
     Math.ceil(questionsData.length / questionsPerPage)

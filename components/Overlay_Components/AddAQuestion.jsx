@@ -5,7 +5,7 @@ import { MultiSelect } from "@mantine/core";
 import { SquarePen, CircleX, Maximize2, Minimize2, X } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
 import { toast } from "sonner";
-import { createQuestion } from "@/queries/query.jsx"; 
+import { createQuestion as query } from "@/queries/query.jsx"; 
 export default function AddQuestion({ onClose }) {
   const { getToken } = useAuth();
   const [question, setQuestion] = useState("");
@@ -42,7 +42,7 @@ export default function AddQuestion({ onClose }) {
           AttachedMedia: new Array(mediaFiles.length).fill(null),
         },
       };
-      const operations = { createQuestion, variables };
+      const operations = { query, variables };
       const map = {};
       let fileIndex = 0;
       files.forEach((_, i) => {
@@ -272,7 +272,7 @@ export default function AddQuestion({ onClose }) {
                 group: "Frontend",
                 items: [
                   { value: "react", label: "React" },
-                  { value: "ng", label: "Angular" },
+                  { value: "angular", label: "Angular" },
                 ],
               },
               {
