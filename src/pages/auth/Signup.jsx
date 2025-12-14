@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackgroundWrapper, GoBackButton } from "@/components/custom";
 import { Toaster, toast } from "sonner";
-import useGql from "../../../hooks/useGql";
+import useGql from "@/hooks/useGql";
 import {
   User_select,
   CreateAcc,
