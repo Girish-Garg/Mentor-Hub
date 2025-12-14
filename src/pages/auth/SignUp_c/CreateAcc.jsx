@@ -7,7 +7,7 @@ import {
   IdCard,
   IdCardLanyard,
 } from "lucide-react";
-import { Combobox } from "../../../../components/custom";
+import { Combobox } from "@/components/custom";
 import { toast } from "sonner";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";

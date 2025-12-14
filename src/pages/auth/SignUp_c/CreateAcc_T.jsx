@@ -5,7 +5,7 @@ import {
   Calendar,
   Mail,
 } from "lucide-react";
-import { Combobox } from "../../../../components/custom";
+import { Combobox } from "@/components/custom";
 import { Formik, Form, Field } from "formik";
 import { toast } from "sonner";
 import * as yup from "yup";

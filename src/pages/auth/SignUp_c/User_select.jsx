@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UserRoundPlus } from "lucide-react";
-import { Combobox } from "../../../../components/custom";
+import { Combobox } from "@/components/custom";
 import { toast } from "sonner"
 
 

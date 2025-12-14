@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { TopBar, UserNavBar as Navbar, Sidebar, Question } from "../../components/custom";
-import AddAQuestion from "../../components/Overlay_Components/AddAQuestion";
+import { TopBar, UserNavBar as Navbar, Sidebar, Question } from "@/components/custom";
+import AddAQuestion from "@/components/Overlay_Components/AddAQuestion";
 import { motion, AnimatePresence } from "framer-motion";
-import { scrollToTop } from "../utils/scrollUtils";
+import { scrollToTop } from "@/src/utils/scrollUtils";
 import { ChevronUp } from "lucide-react";
 
 function HomePage() {

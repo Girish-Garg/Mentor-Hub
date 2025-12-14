@@ -6,7 +6,7 @@ import { useSignIn, useUser, useClerk } from "@clerk/clerk-react";
 import { KeyRound, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import mbmImage from "/mbm.png";
-import { Logo } from "../../../components/custom";
+import { Logo } from "@/components/custom";
 import { Toaster, toast } from "sonner";
 
 const schema = yup.object().shape({
